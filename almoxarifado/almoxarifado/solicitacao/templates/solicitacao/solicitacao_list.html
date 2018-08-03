@@ -101,6 +101,10 @@
         </aside>
 
         <!-- Content Wrapper. Contains page content -->
+
+
+
+
         <div class="content-wrapper">
             <!-- Content Header (Page header) -->
             <section class="content-header">
@@ -125,6 +129,7 @@
             <!-- Main content -->
             <section class="content">
                 <!-- Default box -->
+
                 <div class="card">
                     <div class="card-header">
                         <h3 class="card-title">Minhas Solicitações</h3>
@@ -135,28 +140,62 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <table class="table col-md-12">
-                            <thead class="thead-dark">
-                                <tr>
-                                    <th>ID Requisição</th>
-                                    <th>Descrição</th>
-                                    <th>Status</th>
-                                    <th>Data da Requisição</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for solicitacao in solicitacoes %}
-                                <tr>
-                                    <th>
-                                        <a href="{% url 'detalheSolicitacao' pk=solicitacao.pk %}">{{solicitacao.numero_descricao}}</a>
-                                    </th>
-                                    <td>{{solicitacao.descricao_solicitacao|truncatechars:50}}</td>
-                                    <td>{{solicitacao.status_relacionamento}}</td>
-                                    <td>{{solicitacao.data_emissao}}</td>
-                                </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
+                        <ul class="nav nav-tabs">
+                            <li class="nav-item">
+                                <a class="nav-link active" data-toggle="tab" href="#home">Requisições Abertas</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#menu1">Requisições Fechadas</a>
+                            </li>
+                        </ul>
+
+                        <!-- Tab panes -->
+                        <div class="tab-content">
+                            <div class="tab-pane container active" id="home">
+                                <table class="table">
+                                    <thead class="thead-dark">
+                                        <tr>
+                                            <th>ID Requisição</th>
+                                            <th>Descrição</th>
+                                            <th>Data da Requisição</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for solicitacaoA in solicitacoesA %}
+                                        <tr>
+                                            <th>
+                                                <a href="{% url 'detalheSolicitacao' pk=solicitacaoA.pk %}">{{solicitacaoA.numero_descricao}}</a>
+                                            </th>
+                                            <td>{{solicitacaoA.descricao_solicitacao|truncatechars:50}}</td>
+                                            <td>{{solicitacaoA.data_emissao}}</td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="tab-pane container fade" id="menu1">
+                                <table class="table">
+                                    <thead class="thead-dark">
+                                        <tr>
+                                            <th>ID Requisição</th>
+                                            <th>Descrição</th>
+                                            <th>Data da Requisição</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for solicitacaoF in solicitacoesF %}
+                                        <tr>
+                                            <th>
+                                                <a href="{% url 'detalheSolicitacao' pk=solicitacaoF.pk %}">{{solicitacaoF.numero_descricao}}</a>
+                                            </th>
+                                            <td>{{solicitacaoF.descricao_solicitacao|truncatechars:50}}</td>
+                                            <td>{{solicitacaoF.data_emissao}}</td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                     </div>
                 </div>
 

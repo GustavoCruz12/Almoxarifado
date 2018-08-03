@@ -130,7 +130,24 @@
                 <!-- Default box -->
                 <div class="card bg-info text-white">
                     <div class="card-header">
-                        <h3 class="card-title">Detalhes</h3>
+                        <h1 class="card-title text-white">Detalhes</h1>
+                        <div>
+                            <b class="text-dark">Status:</b>
+                            <span class="badge badge-success">Enviado</span>
+                            {% comment %} Processamento {% endcomment %} {% if solicitacao.requisicao_processamento == True %}
+                            <span class="badge badge-success">Processamento</span>
+                            {% else %}
+                            <span class="badge badge-danger">Processamento</span>
+                            {% endif %} {% comment %} Transito {% endcomment %} {% if solicitacao.requisicao_transito == True %}
+                            <span class="badge badge-success">Em transito</span>
+                            {% else %}
+                            <span class="badge badge-danger">Em transito</span>
+                            {% endif %} {% comment %} Recebido {% endcomment %} {% if solicitacao.requisicao_recebido == True %}
+                            <span class="badge badge-success">Recebido</span>
+                            {% else %}
+                            <span class="badge badge-danger">Recebido</span>
+                            {% endif %}
+                        </div>
                         <div class="card-tools">
                             <button type="button" class="btn btn-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
                                 <i class="fa fa-minus"></i>
@@ -227,7 +244,38 @@
                     </div>
                 </div>
 
-                <a href="{% url 'deleteSolicitacao' solicitacao.id %}">teste</a>
+                <a class="btn btn-primary" href="{% url 'listaSolicitacao' %}">Voltar</a>
+
+
+                {% if solicitacao.requisicao_processamento == True %}
+                <!-- Button trigger modal -->
+                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal">
+                   Deletar
+                </button>
+
+                <!-- Modal -->
+                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Operação Bloqueada</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                Sua Solicitação ja esta em processo de separação e por isso não sera mais permitido a exclusão da
+                                mesma, Para obter a baixa de sua requisição entre em contato com o Almoxarifado.
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-warning" data-dismiss="modal">Entendi!</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% else %}
+                <a class="btn btn-danger" href="{% url 'deleteSolicitacao' solicitacao.id %}">Deletar</a>
+                {% endif %}
         </div>
         <div class="card-footer">
 

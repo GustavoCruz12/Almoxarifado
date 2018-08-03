@@ -1,6 +1,7 @@
 from django.db import models
 import random
 from secretaria.models import (Departamento,)
+# from almoxarifado import settings
 
 
 def numero_solicitacao():
@@ -24,11 +25,14 @@ class Movimentacao(models.Model):
 
 
 class Solicitacao(models.Model):
-    ROLE_CHOICES = (
-        (1, 'Aberta'),
-        (2, 'Fechada'),
+    # user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    ABERTA = True
+    FECHADA = False
+    STATUS_CHOICES = (
+        (ABERTA , 'Aberta'),
+        (FECHADA, 'fechada')
     )
-    aberta_fechada = models.PositiveSmallIntegerField('Status da Solicitação', choices=ROLE_CHOICES, default='Aberta'),
+    status = models.BooleanField('Status da Solicitação', choices=STATUS_CHOICES, default=ABERTA)
     data_emissao = models.DateField(auto_now_add=True)
     descricao_solicitacao = models.CharField('Descrição da Solicitacao', max_length=255)
     numero_descricao = models.CharField(default=numero_solicitacao, max_length=255)

@@ -23,7 +23,7 @@ from .forms import (SolicitacaoForm, MateriaisFormSet)
 class SolicitacaoCreate(LoginRequiredMixin, CreateView):
     model = Solicitacao
     context_object_name = 'solicitacao_list'
-    template_name = 'solicitacao/solicitacao_create1.html'
+    template_name = 'solicitacao/solicitacao_create.html'
     form_class = SolicitacaoForm
     success_url = reverse_lazy('home')
 
@@ -56,7 +56,8 @@ class SolicitacaoList(LoginRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super(SolicitacaoList, self).get_context_data(**kwargs)
         user = self.request.user
-        context['solicitacoes'] = Solicitacao.objects.order_by('-data_emissao')
+        context['solicitacoesA'] = Solicitacao.objects.filter(status='True').order_by('-data_emissao')
+        context['solicitacoesF'] = Solicitacao.objects.filter(status='False').order_by('-data_emissao')
         return context
 
 
