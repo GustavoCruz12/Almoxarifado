@@ -41,7 +41,7 @@ class SolicitacaoCreate(LoginRequiredMixin, CreateView):
         with transaction.atomic():
             if form.is_valid():
                 self.object = form.save()
-                self.object.usuarios = self.request.user
+                self.object.user = self.request.user
                 self.object.save()
             if materiais.is_valid():
                 materiais.instance = self.object
@@ -56,7 +56,7 @@ class SolicitacaoList(LoginRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super(SolicitacaoList, self).get_context_data(**kwargs)
         user = self.request.user
-        context['solicitacoesA'] = Solicitacao.objects.filter(status='True').order_by('-data_emissao')
+        context['solicitacoesA'] = Solicitacao.objects.filter(status='True', user=self.request.user).order_by('-data_emissao')
         context['solicitacoesF'] = Solicitacao.objects.filter(status='False').order_by('-data_emissao')
         return context
 

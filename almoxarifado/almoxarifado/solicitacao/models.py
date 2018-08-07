@@ -1,8 +1,7 @@
 from django.db import models
 import random
 from secretaria.models import (Departamento,)
-# from almoxarifado import settings
-
+from almoxarifado.users.models import User
 
 def numero_solicitacao():
     return str(random.randint(10000, 99999))
@@ -25,7 +24,7 @@ class Movimentacao(models.Model):
 
 
 class Solicitacao(models.Model):
-    # user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, default=0)
     ABERTA = True
     FECHADA = False
     STATUS_CHOICES = (
@@ -86,9 +85,9 @@ class Materiais_Solicitacao(models.Model):
     descricao_material = models.CharField('Descrição do Material', max_length=255, null=True, blank=True)
     quantidade_material = models.FloatField('Quantidade de Material', null=False, blank=False)
     quantidade_aprovada = models.FloatField('Quantidade Aprovada', blank=True, null=True)
-    relacionamento_materiais = models.ForeignKey(Materiais, 'Relacionamento com Materiais')
-    relacionamento_solicitacao = models.ForeignKey(Solicitacao, 'Relacionamento com Solicitacao')
-    unidade_relacionamento = models.ForeignKey(Unidade, 'Relacionamento com a unidade')
+    relacionamento_materiais = models.ForeignKey(Materiais, on_delete=models.CASCADE)
+    relacionamento_solicitacao = models.ForeignKey(Solicitacao, on_delete=models.CASCADE)
+    unidade_relacionamento = models.ForeignKey(Unidade, on_delete=models.CASCADE)
 
     class Meta:
         verbose_name = 'Material da Solicitação'

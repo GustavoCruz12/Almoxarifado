@@ -68,6 +68,7 @@
                         </div>
                     </li>
                 </ul>
+                
             </nav>
             <!-- /.navbar -->
 
@@ -75,7 +76,7 @@
             <aside class="main-sidebar sidebar-dark-primary elevation-4">
                 <!-- Brand Logo -->
                 <a href="{% static 'index3.html'%}" class="brand-link">
-                    <img src="{% static 'dist/img/logoSerrana.jpg'%}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+                    <img src="{% static 'dist/img/logoSerrana.jpg'%}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="">
                     <span class="brand-text font-weight-light">Prefeitura de Serrana</span>
                 </a>
 
@@ -95,11 +96,31 @@
 
                     <!-- Sidebar Menu -->
                     <nav class="mt-2">
-                        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="tree" role="menu" data-accordion="false">
                         <!-- Add icons to the links using the .nav-icon class
                          with font-awesome or any other icon font library -->
                      </ul>
-                     <!-- BARRA LATERAL -->
+                     <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+                            <div class="image">
+                                <img src="{% static 'dist/img/nova.jpg'%}" class="img-circle elevation-2" alt="User Image">
+                            </div>
+                            <div class="info">
+                        
+                                <a href="{% url 'novaSolicitacao' %}" class="d-block">Nova Requisição</a>
+                                
+                            </div>
+                        </div>
+                    
+                        <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+                                <div class="image">
+                                    <img src="{% static 'dist/img/lista1.jpg'%}" class="img-circle elevation-2" alt="User Image">
+                                </div>
+                                <div class="info">
+                            
+                                    <a href="{% url 'listaSolicitacao' %}" class="d-block">Minhas Requisições</a>
+                                    
+                                </div>
+                            </div>
                  </nav>
                  <!-- /.sidebar-menu -->
              </div>

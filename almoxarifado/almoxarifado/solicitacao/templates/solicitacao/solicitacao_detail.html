@@ -93,7 +93,27 @@
                         <!-- Add icons to the links using the .nav-icon class
                          with font-awesome or any other icon font library -->
                     </ul>
-                    <!-- BARRA LATERAL -->
+                    <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+                            <div class="image">
+                                <img src="{% static 'dist/img/nova.jpg'%}" class="img-circle elevation-2" alt="User Image">
+                            </div>
+                            <div class="info">
+                        
+                                <a href="{% url 'novaSolicitacao' %}" class="d-block">Nova Requisição</a>
+                                
+                            </div>
+                        </div>
+                    
+                        <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+                                <div class="image">
+                                    <img src="{% static 'dist/img/lista1.jpg'%}" class="img-circle elevation-2" alt="User Image">
+                                </div>
+                                <div class="info">
+                            
+                                    <a href="{% url 'listaSolicitacao' %}" class="d-block">Minhas Requisições</a>
+                                    
+                                </div>
+                            </div>
                 </nav>
                 <!-- /.sidebar-menu -->
             </div>
