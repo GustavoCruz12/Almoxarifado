@@ -177,16 +177,7 @@
                     <div class="card-body col-sm-12">
                         <div class="container">
                             <div class="row">
-                                <div class="col-sm-4">
-                                    <div class="card bg-light text-dark" style="height:370px">
-                                        <div class="card-body">
-                                            <h3>Descrição da Requisição</h3>
-                                        </div>
-                                        <div class="card-body">
-                                            <b>{{solicitacao.descricao_solicitacao}}</b>
-                                        </div>
-                                    </div>
-                                </div>
+
                                 <div class="col">
                                     <div class="card bg-light text-dark">
                                         <div class="card-body">
@@ -244,7 +235,6 @@
                                 <tr>
                                     <th scope="col">Quantidade</th>
                                     <th scope="col">Material</th>
-                                    <th scope="col">Descrição</th>
                                     {% comment %}
                                     <th scope="col">Handle</th> {% endcomment %}
                                 </tr>
@@ -254,7 +244,6 @@
                                 <tr>
                                     <th scope="row">{{material.quantidade_material}}</th>
                                     <td>{{material.relacionamento_materiais}}</td>
-                                    <td>{{material.descricao_material}}</td>
                                     {% comment %}
                                     <td>@mdo</td> {% endcomment %}
                                 </tr>

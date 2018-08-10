@@ -178,12 +178,6 @@
                                         {% render_field form.movimentacao_relacionamento class="form-control" %}
                                     </div>
                                 </div>
-                                <div class="col-md-8">
-                                    <label>Descrição da Solicitação</label>
-                                    <div class="input-group date">
-                                        {% render_field form.descricao_solicitacao class="form-control" %}
-                                    </div>
-                                </div>
                             </div>
                             <div class="card-footer"></div>
                         </div>
@@ -206,16 +200,13 @@
                                     <thead>
                                         <tr>
                                             <th class="col-sm-2">
-                                                <span>Materiais</span>
+                                                <span>Descrição do Material</span>
                                             </th>
                                             <th class="col-sm-2">
                                                 <span>Unidade</span>
                                             </th>
                                             <th class="col-sm-2">
                                                 <span>Quantidade</span>
-                                            </th>
-                                            <th class="col-sm-6">
-                                                <span>Descrição</span>
                                             </th>
                                             <th class="col-sm-2">
                                                 <span>Apagar</span>
@@ -241,9 +232,6 @@
                                         </td>
                                         <td class="col-sm-2">
                                             {% render_field form.quantidade_material class="form-control" %}
-                                        </td>
-                                        <td class="col-sm-6">
-                                            {% render_field form.descricao_material class="form-control" %}
                                         </td>
                                         <td class="col-sm-2">
                                             <!-- APAGAR FORMSET  -->

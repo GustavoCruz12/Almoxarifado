@@ -33,7 +33,6 @@ class Solicitacao(models.Model):
     )
     status = models.BooleanField('Status da Solicitação', choices=STATUS_CHOICES, default=ABERTA)
     data_emissao = models.DateField(auto_now_add=True)
-    descricao_solicitacao = models.CharField('Descrição da Solicitacao', max_length=255)
     numero_descricao = models.CharField(default=numero_solicitacao, max_length=255)
     movimentacao_relacionamento = models.ForeignKey(Movimentacao, on_delete=models.CASCADE)
     departamento_relacionamento = models.ForeignKey(Departamento, on_delete=models.CASCADE)
@@ -47,7 +46,7 @@ class Solicitacao(models.Model):
         verbose_name_plural = 'Solicitações'
 
     def __str__(self):
-        return self.descricao_solicitacao
+        return self.numero_descricao
 
 
 class Unidade(models.Model):
@@ -71,7 +70,7 @@ class Unidade(models.Model):
 
  
 class Materiais(models.Model):
-    descricao_material = models.CharField('Descrição do Material', max_length=255)
+    descricao_material = models.CharField('Descrição do Material', max_length=100)
 
     class Meta:
         verbose_name = 'Material'

@@ -38,7 +38,6 @@ class SolicitacaoForm(forms.ModelForm):
     class Meta:
         model = Solicitacao
         fields = [
-            'descricao_solicitacao',
             'movimentacao_relacionamento',
             'departamento_relacionamento',
         ]
