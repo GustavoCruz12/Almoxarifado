@@ -12,16 +12,23 @@ class Secretaria(models.Model):
         return self.nome_secretaria
 
 
+class Departamento(models.Model):
+    nome_departamento = models.CharField('Nome do Departamento', max_length=255)
+    centro_custo = models.FloatField('Centro de Custo')
+    secretaria_relacionamento = models.ForeignKey(Secretaria, on_delete=models.CASCADE)
+
+
+    class Meta:
+        verbose_name = 'Departamento'
+        verbose_name_plural = 'Departamentos'
+
+    def __str__(self):
+        return self.nome_departamento
+
+
+
 class Almoxarifado(models.Model):
-    ROLE_CHOICES = (
-        (1, 'Central'),
-        (2, 'Saúde'),
-        (3, 'Cozinha Piloto'),
-        (4, 'DAES'),
-        (5, 'Oficina'),
-        (6, 'Educação'),
-    )
-    tipo_almoxarifado = models.PositiveSmallIntegerField('Almoxarifado', choices=ROLE_CHOICES)
+    almoxarifado_central = models.BooleanField(default=True)
     descricao_almoxarifado = models.CharField('Descrição do Almoxarifado', max_length=255)
 
     class Meta:
@@ -32,15 +39,3 @@ class Almoxarifado(models.Model):
         return self.descricao_almoxarifado
 
 
-class Departamento(models.Model):
-    nome_departamento = models.CharField('Nome do Departamento', max_length=255)
-    centro_custo = models.FloatField('Centro de Custo')
-    secretaria_relacionamento = models.ForeignKey(Secretaria, on_delete=models.CASCADE)
-    almoxarifado_relacionamento = models.ForeignKey(Almoxarifado, on_delete=models.CASCADE)
-
-    class Meta:
-        verbose_name = 'Departamento'
-        verbose_name_plural = 'Departamentos'
-
-    def __str__(self):
-        return self.nome_departamento

@@ -19,6 +19,13 @@ from .models import (Solicitacao, Materiais_Solicitacao)
 
 from .forms import (SolicitacaoForm, MateriaisFormSet)
 
+from secretaria.models import Almoxarifado
+
+
+
+#############################
+## Parte do usuário inicio ##
+#############################
 
 class SolicitacaoCreate(LoginRequiredMixin, CreateView):
     model = Solicitacao
@@ -78,3 +85,10 @@ class SolicitacaoDelete(LoginRequiredMixin, DeleteView):
 
     def get_success_url(self):
         return reverse_lazy('listaSolicitacao')
+
+#######################################
+##   Parte do Encarregado do setor   ##
+#######################################
+
+
+

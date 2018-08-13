@@ -2,6 +2,7 @@ from django.db import models
 import random
 from secretaria.models import (Departamento,)
 from almoxarifado.users.models import User
+from secretaria.models import Almoxarifado
 
 def numero_solicitacao():
     return str(random.randint(10000, 99999))
@@ -35,6 +36,7 @@ class Solicitacao(models.Model):
     data_emissao = models.DateField(auto_now_add=True)
     numero_descricao = models.CharField(default=numero_solicitacao, max_length=255)
     movimentacao_relacionamento = models.ForeignKey(Movimentacao, on_delete=models.CASCADE)
+    almoxarifado_relacionamento = models.ForeignKey(Almoxarifado, on_delete=models.CASCADE)
     departamento_relacionamento = models.ForeignKey(Departamento, on_delete=models.CASCADE)
     requisicao_enviado = models.BooleanField(default=False)
     requisicao_processamento = models.BooleanField(default=False)
@@ -71,6 +73,9 @@ class Unidade(models.Model):
  
 class Materiais(models.Model):
     descricao_material = models.CharField('Descrição do Material', max_length=100)
+    codigo_material = models.IntegerField(blank=False, null=False)
+    unidade_relacionamento = models.ForeignKey(Unidade, on_delete=models.CASCADE)
+    almoxarifado_relacionamento = models.ForeignKey(Almoxarifado, on_delete=models.CASCADE)
 
     class Meta:
         verbose_name = 'Material'

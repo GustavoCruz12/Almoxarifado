@@ -39,7 +39,7 @@ class SolicitacaoForm(forms.ModelForm):
         model = Solicitacao
         fields = [
             'movimentacao_relacionamento',
-            'departamento_relacionamento',
+            'almoxarifado_relacionamento',
         ]
 
 
@@ -84,14 +84,4 @@ class MovimentacaoForm(forms.ModelForm):
         fields = [
             'tipo_movimentacao',
             'movimentacao_descricao',
-        ]
-
-
-class AlmoxarifadoForm(forms.ModelForm):
-
-    class Meta:
-        model = Almoxarifado
-        fields = [
-            'tipo_almoxarifado',
-            'descricao_almoxarifado',
         ]
