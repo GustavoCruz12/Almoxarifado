@@ -253,7 +253,7 @@
                     </div>
                 </div>
 
-                <a class="btn btn-primary" href="{% url 'listaSolicitacao' %}">Voltar</a>
+                <a class="btn btn-primary" href="{% url 'listaAdministrativo' %}">Voltar</a>
 
 
                 {% if solicitacao.requisicao_processamento == True %}
@@ -283,7 +283,7 @@
                     </div>
                 </div>
                 {% else %}
-                <a class="btn btn-danger" href="{% url 'deleteSolicitacao' solicitacao.id %}">Deletar</a>
+                <a class="btn btn-danger" href="{% url 'createAdministrativo' solicitacao.id %}">Administrar</a>
                 {% endif %}
         </div>
         <div class="card-footer">

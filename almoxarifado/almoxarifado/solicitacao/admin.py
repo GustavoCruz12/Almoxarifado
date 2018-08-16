@@ -3,11 +3,6 @@ from .models import (Movimentacao, Solicitacao, Unidade, Materiais,
                      Materiais_Solicitacao)
 
 
-# class Cod_StatusAdmin(admin.TabularInline):
-#     model = Cod_Status
-#     extra = 1
-
-
 class Materiais_SolicitacaoAdmin(admin.TabularInline):
     model = Materiais_Solicitacao
     extra = 1

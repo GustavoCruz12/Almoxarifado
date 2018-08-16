@@ -110,7 +110,7 @@
                                 </div>
                                 <div class="info">
                             
-                                    <a href="{% url 'listaSolicitacao' %}" class="d-block">Minhas Requisições</a>
+                                    <a href="{% url 'listaAdministrativo' %}" class="d-block">Requisições</a>
                                     
                                 </div>
                             </div>
@@ -121,6 +121,10 @@
         </aside>
 
         <!-- Content Wrapper. Contains page content -->
+
+
+
+
         <div class="content-wrapper">
             <!-- Content Header (Page header) -->
             <section class="content-header">
@@ -134,10 +138,7 @@
                                 <li class="breadcrumb-item">
                                     <a href="{% url 'home'%}">Pagina Inicial</a>
                                 </li>
-                                <li class="breadcrumb-item active">
-                                    <a href="{% url 'listaSolicitacao' %}"> Suas Solicitações</a>
-                                </li>
-                                <li class="breadcrumb-item active">Detalhes</li>
+                                <li class="breadcrumb-item active">Suas Solicitações</li>
                             </ol>
                         </div>
                     </div>
@@ -148,81 +149,10 @@
             <!-- Main content -->
             <section class="content">
                 <!-- Default box -->
-                <div class="card bg-info text-white">
+
+                <div class="card">
                     <div class="card-header">
-                        <h1 class="card-title text-white">Detalhes</h1>
-                        <div>
-                            <b class="text-dark">Status:</b>
-                            <span class="badge badge-success">Enviado</span>
-                            {% comment %} Processamento {% endcomment %} {% if solicitacao.requisicao_processamento == True %}
-                            <span class="badge badge-success">Processamento</span>
-                            {% else %}
-                            <span class="badge badge-danger">Processamento</span>
-                            {% endif %} {% comment %} Transito {% endcomment %} {% if solicitacao.requisicao_transito == True %}
-                            <span class="badge badge-success">Em transito</span>
-                            {% else %}
-                            <span class="badge badge-danger">Em transito</span>
-                            {% endif %} {% comment %} Recebido {% endcomment %} {% if solicitacao.requisicao_recebido == True %}
-                            <span class="badge badge-success">Recebido</span>
-                            {% else %}
-                            <span class="badge badge-danger">Recebido</span>
-                            {% endif %}
-                        </div>
-                        <div class="card-tools">
-                            <button type="button" class="btn btn-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
-                                <i class="fa fa-minus"></i>
-                            </button>
-                        </div>
-                    </div>
-                    <div class="card-body col-sm-12">
-                        <div class="container">
-                            <div class="row">
-
-                                <div class="col">
-                                    <div class="card bg-light text-dark">
-                                        <div class="card-body">
-                                            <p>
-                                                <b>Numero da Requisição:</b>
-                                                <i>{{solicitacao.numero_descricao}}</i>
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div class="card bg-light text-dark">
-                                        <div class="card-body">
-                                            <p>
-                                                <b>Data de Emissão:</b>
-                                                <i>{{solicitacao.data_emissao}}</i>
-                                            </p>
-
-                                        </div>
-                                    </div>
-                                    <div class="card bg-light text-dark">
-                                        <div class="card-body">
-                                            <p>
-                                                <b>Tipo da Requisição:</b>
-                                                <i>{{solicitacao.movimentacao_relacionamento}}</i>
-                                            </p>
-
-                                        </div>
-                                    </div>
-                                    <div class="card bg-light text-dark">
-                                        <div class="card-body">
-                                            <p>
-                                                <b>Departamento:</b>
-                                                <i>{{solicitacao.departamento_relacionamento}}</i>
-                                            </p>
-
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-                <div class="card bg-info text-dark">
-                    <div class="card-header">
-                        <h3 class="card-title">Materiais</h3>
+                        <h3 class="card-title">Requisições</h3>
                         <div class="card-tools">
                             <button type="button" class="btn btn-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
                                 <i class="fa fa-minus"></i>
@@ -230,65 +160,71 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <table class="table table-hover">
-                            <thead>
-                                <tr>
-                                    <th scope="col">Quantidade</th>
-                                    <th scope="col">Material</th>
-                                    <th scope="col">Quantidade Aprovada</th>
-                                    {% comment %}
-                                    <th scope="col">Handle</th> {% endcomment %}
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for material in materiais %}
-                                <tr>
-                                    <th scope="row">{{material.quantidade_material}}</th>
-                                    <td>{{material.relacionamento_materiais}}</td>
-                                    <td>{{material.quantidade_aprovada|default_if_none:"Aguarde o Processamento"}}</td>
-                                </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+                        <ul class="nav nav-tabs">
+                            <li class="nav-item">
+                                <a class="nav-link active" data-toggle="tab" href="#home">Requisições em Espera</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#menu1">Requisições Aprovadas</a>
+                            </li>
+                        </ul>
 
-                <a class="btn btn-primary" href="{% url 'listaSolicitacao' %}">Voltar</a>
-
-
-                {% if solicitacao.requisicao_processamento == True %}
-                <!-- Button trigger modal -->
-                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal">
-                   Deletar
-                </button>
-
-                <!-- Modal -->
-                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Operação Bloqueada</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
+                        <!-- Tab panes -->
+                        <div class="tab-content">
+                            <div class="tab-pane container active" id="home">
+                                <table class="table">
+                                    <thead class="thead-dark">
+                                        <tr>
+                                            <th>ID Requisição</th>
+                                            <th>Usuário</th>
+                                            <th>Departamento</th>
+                                            <th>Data da Requisição</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for solicitacaoE in solicitacoesE %}
+                                        <tr>
+                                            <th>
+                                                <a href="{% url 'detalheAdministrativo' pk=solicitacaoE.pk %}">{{solicitacaoE.numero_descricao}}</a>
+                                            </th>
+                                            <td>{{solicitacaoE.user}}</td>
+                                            <td>{{solicitacaoE.departamento_relacionamento}}</td>
+                                            <td>{{solicitacaoE.data_emissao}}</td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
                             </div>
-                            <div class="modal-body">
-                                Sua Solicitação ja esta em processo de separação e por isso não sera mais permitido a exclusão da
-                                mesma, Para obter a baixa de sua requisição entre em contato com o Almoxarifado.
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-warning" data-dismiss="modal">Entendi!</button>
+                            <div class="tab-pane container fade" id="menu1">
+                                <table class="table">
+                                    <thead class="thead-dark">
+                                        <tr>
+                                            <th>ID Requisição</th>
+                                            <th>Usuário</th>
+                                            <th>Departamento</th>
+                                            <th>Data da Requisição</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for solicitacaoA in solicitacoesA %}
+                                        <tr>
+                                            <th>
+                                                <a href="{% url 'detalheAdministrativo' pk=solicitacaoA.pk %}">{{solicitacaoA.numero_descricao}}</a>
+                                            </th>
+                                            <td>{{solicitacaoA.user}}</td>
+                                            <td>{{solicitacaoA.departamento_relacionamento}}</td>
+                                            <td>{{solicitacaoA.data_emissao}}</td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
                 </div>
-                {% else %}
-                <a class="btn btn-danger" href="{% url 'deleteSolicitacao' solicitacao.id %}">Deletar</a>
-                {% endif %}
-        </div>
-        <div class="card-footer">
 
         </div>
+        <div class="card-footer"></div>
     </div>
 
     <!-- /.card-body -->

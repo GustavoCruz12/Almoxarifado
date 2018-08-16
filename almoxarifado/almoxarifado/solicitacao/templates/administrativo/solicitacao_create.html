@@ -117,7 +117,7 @@
                                 </div>
                                 <div class="info">
                             
-                                    <a href="{% url 'listaSolicitacao' %}" class="d-block">Minhas Requisições</a>
+                                    <a href="{% url 'listaAdministrativo' %}" class="d-block">Requisições</a>
                                     
                                 </div>
                             </div>
@@ -156,6 +156,7 @@
                         {% endfor %}
                         <!-- Default box -->
                         <div class="card">
+                            <fieldset disabled="disabled">
                             <div class="card-header">
                                 <h3 class="card-title">Movimentação</h3>
                                 <div class="card-tools">
@@ -187,6 +188,7 @@
                                 </div>
                             </div>
                             <div class="card-footer"></div>
+                        </fieldset>
                         </div>
 
                         <div class="card">
@@ -216,8 +218,9 @@
                                                 <span>Quantidade</span>
                                             </th>
                                             <th class="col">
-                                                <span>Apagar</span>
+                                                <span>Quantidade Aprovada</span>
                                             </th>
+                                        
                                         </tr>
                                     </thead>
                                     {% endif %}
@@ -231,17 +234,22 @@
                                             {{hidden}}
                                             {% endfor %}
                                             {% endif %}
-                                            {% render_field form.relacionamento_materiais class="form-control" %}
+                                            <fieldset disabled="disabled">
+                                                {% render_field form.relacionamento_materiais class="form-control" %}
+                                            </fieldset>
                                         </td>
                                         <!-- form unidade -->
                                         <td class="col">
-                                            {% render_field form.unidade_relacionamento class="form-control" %}
+                                            <fieldset disabled="disabled">
+                                                {% render_field form.unidade_relacionamento class="form-control" %}
+                                            </fieldset>                                 
                                         </td>
                                         <td class="col">
+                                            <fieldset disabled="disabled">                            
                                             {% render_field form.quantidade_material class="form-control" %}
-                                        </td>
+                                            </fieldset>                                     </td>
                                         <td class="col">
-                                            <!-- APAGAR FORMSET  -->
+                                            {% render_field form.quantidade_aprovada class="form-control" %}
                                         </td>
                                     </tr>
                                     {% endfor %}
@@ -254,6 +262,26 @@
                         </div>
 
                         <div class="card">
+                                <div class="card-header">
+                                    <h3 class="card-title">Aprovação</h3>
+                                    <div class="card-tools">
+                                        <button type="button" class="btn btn-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
+                                            <i class="fa fa-minus"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="col-sm-4">
+                                        <span class="col">Aprovar Requisição e dar andamento</span>
+                                        {{form.requisicao_processamento}}
+                                    </div>
+                                </div>
+                                <div class="card-footer">
+    
+                                </div>
+                            </div>
+
+                        <div class="card">
                             <div class="card-header">
                                 <h3 class="card-title">Confirmação</h3>
                                 <div class="card-tools">
@@ -263,9 +291,9 @@
                                 </div>
                             </div>
                             <div class="card-body">
-                                <button type="submit" class="btn btn-primary glyphicon glyphicon-ok"> Enviar </button>
+                                <button type="submit" class="btn btn-primary glyphicon glyphicon-ok"> Confirmar </button>
 
-                                <a href="{% url 'home' %}" class="btn btn-danger glyphicon-ok glyphicon glyphicon-remove"> Cancelar</a>
+                                <a href="{% url 'listaAdministrativo' %}" class="btn btn-danger glyphicon-ok glyphicon glyphicon-remove"> Cancelar</a>
                             </div>
                             <div class="card-footer">
 
@@ -317,12 +345,5 @@
     <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js" integrity="sha256-0YPKAwZP7Mp3ALMRVB2i8GXeEndvCq3eSl/WsAl1Ryk=" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-2.2.4.js" integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.formset/1.2.2/jquery.formset.js"></script>
-    <script type="text/javascript">
-    $('.formset_row').formset({
-        addText: 'Adicionar',
-        deleteText: 'Remover',
-        prefix: 'materiais_solicitacao_set'
-    });
-    </script>
 
 </body>

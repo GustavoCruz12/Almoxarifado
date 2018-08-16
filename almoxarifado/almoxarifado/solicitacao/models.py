@@ -30,7 +30,7 @@ class Solicitacao(models.Model):
     FECHADA = False
     STATUS_CHOICES = (
         (ABERTA , 'Aberta'),
-        (FECHADA, 'fechada')
+        (FECHADA, 'fechada'),
     )
     status = models.BooleanField('Status da Solicitação', choices=STATUS_CHOICES, default=ABERTA)
     data_emissao = models.DateField(auto_now_add=True)
@@ -74,7 +74,6 @@ class Unidade(models.Model):
 class Materiais(models.Model):
     descricao_material = models.CharField('Descrição do Material', max_length=100)
     codigo_material = models.IntegerField(blank=False, null=False)
-    unidade_relacionamento = models.ForeignKey(Unidade, on_delete=models.CASCADE)
     almoxarifado_relacionamento = models.ForeignKey(Almoxarifado, on_delete=models.CASCADE)
 
     class Meta:
@@ -86,7 +85,6 @@ class Materiais(models.Model):
 
 
 class Materiais_Solicitacao(models.Model):
-    descricao_material = models.CharField('Descrição do Material', max_length=255, null=True, blank=True)
     quantidade_material = models.FloatField('Quantidade de Material', null=False, blank=False)
     quantidade_aprovada = models.FloatField('Quantidade Aprovada', blank=True, null=True)
     relacionamento_materiais = models.ForeignKey(Materiais, on_delete=models.CASCADE)
