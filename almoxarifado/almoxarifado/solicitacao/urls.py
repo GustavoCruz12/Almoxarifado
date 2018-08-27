@@ -4,16 +4,21 @@ from . import views
 
 urlpatterns = [
     # usuario
-    path('nova/', views.SolicitacaoCreate.as_view(), name='novaSolicitacao'),
-    path('lista/', views.SolicitacaoList.as_view(), name='listaSolicitacao'),
-    path('detalhes/<int:pk>', views.SolicitacaoDetail.as_view(), name='detalheSolicitacao'),
-    path('deletar/<int:pk>', views.SolicitacaoDelete.as_view(), name='deleteSolicitacao'),
+    path('usuario/nova/', views.SolicitacaoCreate.as_view(), name='novaSolicitacao'),
+    path('usuario/lista/', views.SolicitacaoList.as_view(), name='listaSolicitacao'),
+    path('usuario/detalhes/<int:pk>', views.SolicitacaoDetail.as_view(), name='detalheSolicitacao'),
+    path('usuario/deletar/<int:pk>', views.SolicitacaoDelete.as_view(), name='deleteSolicitacao'),
     #responsavel
-    path('lista/responsavel/', views.SolicitacaoSecretarioList.as_view(), name='listaResponsavel'),
+    path('responsavel/lista/', views.SolicitacaoSecretarioList.as_view(), name='listaResponsavel'),
     #administrativo
-    path('lista/administrativo/', views.SolicitacaoAdminstrativoList.as_view(), name='listaAdministrativo'),
-    path('detail/administrativo/<int:pk>', views.SolicitacaoAdministrativoDetail.as_view(), name='detalheAdministrativo'),
-    path('create/administrativo/<int:pk>', views.SolicitacaoAdminstrativoUpdate.as_view(), name='createAdministrativo'),
+    path('administrativo/lista/', views.SolicitacaoAdminstrativoList.as_view(), name='listaAdministrativo'),
+    path('administrativo/lista/detalhe/<int:pk>', views.SolicitacaoAdministrativoDetail.as_view(), name='detalheAdministrativo'),
+    path('administrativo/lista/detalhe/aprovacao/<int:pk>', views.SolicitacaoCreateUpdate.as_view(), name='createAdministrativo'),
+    
+    path('administrativo/entrega/lista/', views.SolicitacaoListEntrega.as_view(), name='entregaLista'),
+    path('administrativo/entrega/lista/detalhes/<int:pk>', views.SolicitacaoDetailEntrega.as_view(), name='entregaDetalhe'),
+    path('administrativo/entrega/detalhe/separacao_e_entrega/<int:pk>', views.SolicitacaoCreateEntrega.as_view(), name='entregaUpdate'),
+    path('administrativo/entrega/requisicao/pdf/', views.PdfRequisicao.as_view(), name='pdfcreate'),
 
 ]
 

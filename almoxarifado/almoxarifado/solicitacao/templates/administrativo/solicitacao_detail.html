@@ -94,26 +94,26 @@
                          with font-awesome or any other icon font library -->
                     </ul>
                     <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-                            <div class="image">
-                                <img src="{% static 'dist/img/nova.jpg'%}" class="img-circle elevation-2" alt="User Image">
-                            </div>
-                            <div class="info">
-                        
-                                <a href="{% url 'novaSolicitacao' %}" class="d-block">Nova Requisição</a>
-                                
-                            </div>
+                        <div class="image">
+                            <img src="{% static 'dist/img/nova.jpg'%}" class="img-circle elevation-2" alt="User Image">
                         </div>
-                    
-                        <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-                                <div class="image">
-                                    <img src="{% static 'dist/img/lista1.jpg'%}" class="img-circle elevation-2" alt="User Image">
-                                </div>
-                                <div class="info">
-                            
-                                    <a href="{% url 'listaSolicitacao' %}" class="d-block">Minhas Requisições</a>
-                                    
-                                </div>
-                            </div>
+                        <div class="info">
+
+                            <a href="{% url 'novaSolicitacao' %}" class="d-block">Nova Requisição</a>
+
+                        </div>
+                    </div>
+
+                    <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+                        <div class="image">
+                            <img src="{% static 'dist/img/lista1.jpg'%}" class="img-circle elevation-2" alt="User Image">
+                        </div>
+                        <div class="info">
+
+                            <a href="{% url 'listaSolicitacao' %}" class="d-block">Minhas Requisições</a>
+
+                        </div>
+                    </div>
                 </nav>
                 <!-- /.sidebar-menu -->
             </div>
@@ -234,7 +234,7 @@
                             <thead>
                                 <tr>
                                     <th scope="col">Quantidade</th>
-                                    <th scope="col">Material</th>
+                                    <th scope="col">Código Material /  Material</th>
                                     <th scope="col">Quantidade Aprovada</th>
                                     {% comment %}
                                     <th scope="col">Handle</th> {% endcomment %}
@@ -244,6 +244,7 @@
                                 {% for material in materiais %}
                                 <tr>
                                     <th scope="row">{{material.quantidade_material}}</th>
+                                    
                                     <td>{{material.relacionamento_materiais}}</td>
                                     <td>{{material.quantidade_aprovada|default_if_none:"Aguarde o Processamento"}}</td>
                                 </tr>
@@ -252,39 +253,10 @@
                         </table>
                     </div>
                 </div>
-
                 <a class="btn btn-primary" href="{% url 'listaAdministrativo' %}">Voltar</a>
 
-
-                {% if solicitacao.requisicao_processamento == True %}
-                <!-- Button trigger modal -->
-                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal">
-                   Deletar
-                </button>
-
-                <!-- Modal -->
-                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Operação Bloqueada</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                Sua Solicitação ja esta em processo de separação e por isso não sera mais permitido a exclusão da
-                                mesma, Para obter a baixa de sua requisição entre em contato com o Almoxarifado.
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-warning" data-dismiss="modal">Entendi!</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                {% else %}
                 <a class="btn btn-danger" href="{% url 'createAdministrativo' solicitacao.id %}">Administrar</a>
-                {% endif %}
+
         </div>
         <div class="card-footer">
 

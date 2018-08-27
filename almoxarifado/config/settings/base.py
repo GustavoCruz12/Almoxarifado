@@ -70,6 +70,7 @@ THIRD_PARTY_APPS = [
     'allauth.socialaccount',
     'rest_framework',
     'widget_tweaks',
+    'xhtml2pdf',
 ]
 LOCAL_APPS = [
     'almoxarifado.users.apps.UsersAppConfig',

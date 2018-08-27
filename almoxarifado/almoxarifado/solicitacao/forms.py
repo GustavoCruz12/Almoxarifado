@@ -42,12 +42,11 @@ class SolicitacaoForm(forms.ModelForm):
             'almoxarifado_relacionamento',
             'departamento_relacionamento',
             'requisicao_processamento',
+            'requisicao_transito',
         ]
 
 
 class Material_SolicitacaoForm(forms.ModelForm):
-
-    quantidade_material = forms.CharField(disabled=True)
 
     class Meta:
         model = Materiais_Solicitacao
@@ -57,16 +56,17 @@ class Material_SolicitacaoForm(forms.ModelForm):
             'unidade_relacionamento',
         ]
 
+    
 MateriaisFormSet = inlineformset_factory(Solicitacao, Materiais_Solicitacao, fields=('quantidade_material', 'quantidade_aprovada', 'unidade_relacionamento', 'relacionamento_materiais'), extra=1)
 MateriaisFormSetUP = inlineformset_factory(Solicitacao, Materiais_Solicitacao, fields=('quantidade_material', 'quantidade_aprovada', 'unidade_relacionamento', 'relacionamento_materiais'), extra=0)
-
 
 class MateriaisForm(forms.ModelForm):
 
     class Meta:
         model = Materiais
         fields = [
-            'descricao_material'
+            'descricao_material',
+            'codigo_material'
         ]
 
 
