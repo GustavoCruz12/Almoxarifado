@@ -1,5 +1,5 @@
 from django import forms
-from django.forms import inlineformset_factory
+from django.forms import inlineformset_factory, ModelForm
 from django_select2.forms import ModelSelect2Widget
 from .models import (Solicitacao, Movimentacao, Materiais, Materiais_Solicitacao, Unidade)
 from secretaria.models import (Departamento, Secretaria, Almoxarifado)
@@ -46,19 +46,16 @@ class SolicitacaoForm(forms.ModelForm):
         ]
 
 
-class Material_SolicitacaoForm(forms.ModelForm):
+class Material_SolicitacaoForm(ModelForm):
 
     class Meta:
         model = Materiais_Solicitacao
-        fields = [
-            'quantidade_material',
-            'quantidade_aprovada',
-            'unidade_relacionamento',
-        ]
+        exclude = ['quantidade_material', 'unidade_relacionamento', 'relacionamento_materiais']
+        
 
     
-MateriaisFormSet = inlineformset_factory(Solicitacao, Materiais_Solicitacao, fields=('quantidade_material', 'quantidade_aprovada', 'unidade_relacionamento', 'relacionamento_materiais'), extra=1)
-MateriaisFormSetUP = inlineformset_factory(Solicitacao, Materiais_Solicitacao, fields=('quantidade_material', 'quantidade_aprovada', 'unidade_relacionamento', 'relacionamento_materiais'), extra=0)
+MateriaisFormSet = inlineformset_factory(Solicitacao, Materiais_Solicitacao, form=Material_SolicitacaoForm, extra=0, can_delete=False)
+MateriaisFormSetUP = inlineformset_factory(Solicitacao, Materiais_Solicitacao, fields=('quantidade_material', 'quantidade_aprovada', 'unidade_relacionamento', 'relacionamento_materiais'), extra=1)
 
 class MateriaisForm(forms.ModelForm):
 

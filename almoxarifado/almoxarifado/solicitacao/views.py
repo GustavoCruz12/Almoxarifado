@@ -11,15 +11,15 @@ from django.shortcuts import render, redirect, get_object_or_404
 
 from django.db import transaction
 
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 from .models import (Solicitacao, Materiais_Solicitacao)
 
-from .render import Render
-
 from .forms import (SolicitacaoForm, MateriaisFormSet, MateriaisFormSetUP)
+
+from .render import Render
 
 from secretaria.models import Almoxarifado
 
@@ -41,9 +41,9 @@ class SolicitacaoCreate(LoginRequiredMixin, CreateView):
     def get_context_data(self, **kwargs):
         data = super(SolicitacaoCreate, self).get_context_data(**kwargs)
         if self.request.POST:
-            data['materiais'] = MateriaisFormSet(self.request.POST,)
+            data['materiais'] = MateriaisFormSetUP(self.request.POST,)
         else:
-            data['materiais'] = MateriaisFormSet()
+            data['materiais'] = MateriaisFormSetUP()
         return data
 
     def form_valid(self, form):
@@ -137,25 +137,30 @@ class SolicitacaoCreateUpdate(LoginRequiredMixin, UpdateView):
     model = Solicitacao
     template_name = 'administrativo/solicitacao_update.html'
     form_class = SolicitacaoForm
-    success_url = reverse_lazy('listaAdministrativo')
 
     def get_context_data(self, **kwargs):
         context = super(SolicitacaoCreateUpdate, self).get_context_data(**kwargs)
+        context['materiaisList'] = Materiais_Solicitacao.objects.all().filter(relacionamento_solicitacao_id=self.object)
         if self.request.POST:
-            context['materiais'] = MateriaisFormSetUP(self.request.POST, instance=self.object)
+            context['materiais'] = MateriaisFormSet(self.request.POST, instance=self.object)
         else:
-            context['materiais'] = MateriaisFormSetUP(instance=self.object)
+            context['materiais'] = MateriaisFormSet(instance=self.object)
         return context
 
     def form_valid(self, form):
         context = self.get_context_data()
         materiais = context['materiais']
         with transaction.atomic():
-           self.object = form.save()
-           if materiais.is_valid():
-               materiais.intance = self.object
-               materiais.save()
-        return super (SolicitacaoCreateUpdate, self).form_valid(form)
+            self.object = form.save()
+
+            if materiais.is_valid():
+                materiais.instance = self.object
+                materiais.save()
+        return super(SolicitacaoCreateUpdate, self).form_valid(form)
+    
+    def get_success_url(self):
+        return reverse('detalheAdministrativo', args=(self.object.pk,))
+
 
 ###########################################################
 ##   Parte Administrativa do sistema separação e entrega ##
@@ -190,23 +195,6 @@ class SolicitacaoCreateEntrega(LoginRequiredMixin, UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super(SolicitacaoCreateEntrega, self).get_context_data(**kwargs)
-        context['materiaisList'] = Materiais_Solicitacao.objects.all().filter(relacionamento_solicitacao_id=self.object)
+        context['solicitacoes'] = Solicitacao.objects.all()
+        context['materiais'] = Materiais_Solicitacao.objects.all().filter(relacionamento_solicitacao_id=self.object)        
         return context
-
-    def form_valid(self, form):
-        context = self.get_context_data()
-        with transaction.atomic():
-           self.object = form.save()
-        return super (SolicitacaoCreateEntrega, self).form_valid(form)
-
-class PdfRequisicao(View):
-    
-    def get(self, request):
-        solicitacoes = Solicitacao.objects.all()
-        materiais = Materiais_Solicitacao.objects.all()
-        params = {
-            'solicitacao': solicitacoes,
-            'materiais': materiais,
-            'request': request
-        }
-        return Render.render('pdf.html', params)

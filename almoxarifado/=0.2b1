@@ -1,0 +1,8 @@
+Requirement already satisfied: xhtml2pdf in /home/gustavo/Projetos/env_almox/lib/python3.6/site-packages
+Requirement already satisfied: Pillow in /home/gustavo/Projetos/env_almox/lib/python3.6/site-packages (from xhtml2pdf)
+Requirement already satisfied: html5lib>=1.0 in /home/gustavo/Projetos/env_almox/lib/python3.6/site-packages (from xhtml2pdf)
+Requirement already satisfied: httplib2 in /home/gustavo/Projetos/env_almox/lib/python3.6/site-packages (from xhtml2pdf)
+Requirement already satisfied: pyPdf2 in /home/gustavo/Projetos/env_almox/lib/python3.6/site-packages (from xhtml2pdf)
+Requirement already satisfied: reportlab>=3.0 in /home/gustavo/Projetos/env_almox/lib/python3.6/site-packages (from xhtml2pdf)
+Requirement already satisfied: six in /home/gustavo/Projetos/env_almox/lib/python3.6/site-packages (from xhtml2pdf)
+Requirement already satisfied: webencodings in /home/gustavo/Projetos/env_almox/lib/python3.6/site-packages (from html5lib>=1.0->xhtml2pdf)

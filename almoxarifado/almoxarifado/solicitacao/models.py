@@ -81,8 +81,7 @@ class Materiais(models.Model):
         verbose_name_plural = 'Materiais'
 
     def __str__(self):
-        template = '{0.codigo_material} / {0.descricao_material}'
-        return template.format(self)
+        return self.descricao_material
 
 
 class Materiais_Solicitacao(models.Model):

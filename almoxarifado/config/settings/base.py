@@ -70,7 +70,7 @@ THIRD_PARTY_APPS = [
     'allauth.socialaccount',
     'rest_framework',
     'widget_tweaks',
-    'xhtml2pdf',
+    'easy_pdf',
 ]
 LOCAL_APPS = [
     'almoxarifado.users.apps.UsersAppConfig',
@@ -80,6 +80,9 @@ LOCAL_APPS = [
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
 
 # MIGRATIONS
 # ------------------------------------------------------------------------------

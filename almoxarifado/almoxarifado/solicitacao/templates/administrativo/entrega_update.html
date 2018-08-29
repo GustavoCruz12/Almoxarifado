@@ -144,11 +144,7 @@
             <!-- Main content -->
             <section class="content">
                 <form action="" method="post" enctype="multipart/form-data">
-                    {% csrf_token %}
-                    {{form.media}}
-                    {% for hidden_field in form.hidden_fields %}
-                    {{hidden_field}}
-                    {% endfor %}
+                    {% csrf_token %} {{form.media}} {% for hidden_field in form.hidden_fields %} {{hidden_field}} {% endfor %}
                     <!-- Default box -->
                     <fieldset hidden="True">
                         <div class="card">
@@ -167,14 +163,14 @@
                                         {% render_field form.almoxarifado_relacionamento class="form-control" %}
                                     </div>
                                 </div>
-    
+
                                 <div class="col-md-8">
                                     <label>Movimentação</label>
                                     <div class="input-group date">
                                         {% render_field form.movimentacao_relacionamento class="form-control" %}
                                     </div>
                                 </div>
-    
+
                                 <div class="col-md-8">
                                     <label>Departamento</label>
                                     <div class="input-group date">
@@ -186,58 +182,58 @@
                         </div>
                     </fieldset>
                     <div class="card">
-                            <div class="card-header">
-                                <h3 class="card-title">Itens</h3>
-                                <div class="card-tools">
-                                    <button type="button" class="btn btn-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
-                                        <i class="fa fa-minus"></i>
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="card-body">
-                                <div class="container">
-                                    <table class="table table-hover">
-                                        <thead>
-                                            <tr>
-                                                <th scope="col">Código Material /  Material</th>
-                                                <th scope="col">Quantidade Aprovada</th>
-                                                <th scope="col">Unidade</th>
-                                                {% comment %}
-                                                <th scope="col">Handle</th> {% endcomment %}
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {% for material in materiaisList %}
-                                            <tr>                                                
-                                                <td>{{material.relacionamento_materiais}}</td>
-                                                <td>{{material.quantidade_aprovada|default_if_none:"Aguarde o Processamento"}}</td>
-                                                <td>{{material.unidade_relacionamento}}</td>
-                                            </tr>
-                                            {% endfor %}
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                    </div>
-                    <div class="card">
-                            <div class="card-header">
-                                <h3 class="card-title">Aprovação</h3>
-                                <div class="card-tools">
-                                        <button type="button" class="btn btn-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
-                                            <i class="fa fa-minus"></i>
-                                        </button>
-                                    </div>
-                            </div>
-                            <div class="card-body">
-                                    <label>Finalizar Separação e realizar a Entrega</label>
-                                    {% render_field form.requisicao_transito%}
-                                    
-                                    <fieldset hidden="True">
-                                        {% render_field form.requisicao_processamento%}
-                                    </fieldset>
-
+                        <div class="card-header">
+                            <h3 class="card-title">Itens</h3>
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
+                                    <i class="fa fa-minus"></i>
+                                </button>
                             </div>
                         </div>
+                        <div class="card-body">
+                            <div class="container">
+                                {{ materiaisList.management_form }}
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Código Material / Material</th>
+                                            <th scope="col">Quantidade Aprovada</th>
+                                            <th scope="col">Unidade</th>
+                                            {% comment %}
+                                            <th scope="col">Handle</th> {% endcomment %}
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for material in materiais %}
+                                        <tr>
+                                            <td>{{material.relacionamento_materiais}}</td>
+                                            <td>{{material.quantidade_aprovada|default_if_none:"Aguarde o Processamento"}}</td>
+                                            <td>{{material.unidade_relacionamento}}</td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Aprovação</h3>
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
+                                    <i class="fa fa-minus"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <label>Finalizar Separação e realizar a Entrega</label>
+                                {% render_field form.requisicao_transito%}
+                            <fieldset hidden="True">
+                                {% render_field form.requisicao_processamento%}
+                            </fieldset>
+
+                        </div>
+                    </div>
                     <div class="card">
                         <div class="card-header">
                             <h3 class="card-title">Confirmação</h3>
@@ -248,9 +244,13 @@
                             </div>
                         </div>
                         <div class="card-body">
+                            {% if solicitacao.requisicao_transito == True %}
+                            
+                            {% else %}
                             <button type="submit" class="btn btn-primary glyphicon glyphicon-ok"> Confirmar </button>
+                            {% endif %}
 
-                            <a href="{% url 'entregaLista' %}" class="btn btn-danger glyphicon-ok glyphicon glyphicon-remove"> Cancelar</a>
+                            <a href="{% url 'entregaLista' %}" class="btn btn-danger glyphicon-ok glyphicon glyphicon-remove"> Voltar</a>
                         </div>
                         <div class="card-footer">
 

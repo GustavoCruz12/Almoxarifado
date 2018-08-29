@@ -144,11 +144,7 @@
             <!-- Main content -->
             <section class="content">
                 <form action="" method="post" enctype="multipart/form-data">
-                    {% csrf_token %}
-                    {{form.media}}
-                    {% for hidden_field in form.hidden_fields %}
-                    {{hidden_field}}
-                    {% endfor %}
+                    {% csrf_token %} {{form.media}} {% for hidden_field in form.hidden_fields %} {{hidden_field}} {% endfor %}
                     <!-- Default box -->
                     <div class="card">
                         <div class="card-header">
@@ -184,61 +180,87 @@
                         <div class="card-footer"></div>
                     </div>
                     <div class="card">
-                            <div class="card-header">
-                                <h3 class="card-title">Itens</h3>
-                                <div class="card-tools">
-                                    <button type="button" class="btn btn-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
-                                        <i class="fa fa-minus"></i>
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="card-body">
-                                <div class="container">
-                                        <table class="table">
-                                                {{ materiais.management_form }}
-                                                {% for form in materiais.forms %}
-                                                    {% if forloop.first %}
-                                                        <thead>
-                                                        <tr>
-                                                            {% for field in form.visible_fields %}
-                                                                <th>{{ field.label|capfirst }}</th>
-                                                            {% endfor %}
-                                                        </tr>
-                                                        </thead>
-                                                    {% endif %}
-                                                    <tr class="formset_row">
-                                                        {% for field in form.visible_fields %}
-                                                            <td>
-                                                                {# Include the hidden fields in the form #}
-                                                                {% if forloop.first %}
-                                                                    {% for hidden in form.hidden_fields %}
-                                                                        {{ hidden }}
-                                                                    {% endfor %}
-                                                                {% endif %}
-                                                                {{ field.errors.as_ul }}
-                                                                { 
-                                                            </td>
-                                                        {% endfor %}
-                                                    </tr>
-                                                {% endfor %}
-                                            </table>
-                                </div>
-                            </div>
-                    </div>
-                    <div class="card">
-                            <div class="card-header">
-                                <h3 class="card-title">Aprovação</h3>
-                                <div class="card-tools">
-                                        <button type="button" class="btn btn-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
-                                            <i class="fa fa-minus"></i>
-                                        </button>
-                                    </div>
-                            </div>
-                            <div class="card-body">
-                                    <label>Aprovar Solicitação</label>
-                                        {% render_field form.requisicao_processamento%}
+                        <div class="card-header">
+                            <h3 class="card-title">Itens</h3>
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
+                                    <i class="fa fa-minus"></i>
+                                </button>
                             </div>
                         </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <table class="table col-sm-2">
+                                    {{ materiais.management_form }}
+                                    <thead>
+                                        <tr>
+                                            <th>Quantidade Aprovada</th>                                        
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for form in materiais.forms %}
+                                        {% for field in form.visible_fields %}
+                                        <tr class="">
+                                            <td>
+                                                {# Include the hidden fields in the form #} 
+                                                {% if forloop.first %} 
+                                                {% for hidden in form.hidden_fields %} 
+                                                {{ hidden }} 
+                                                {%endfor %} 
+                                                {% endif %} 
+                                                {{ field.errors.as_ul }} 
+                                                {{form.quantidade_aprovada}}
+                                            </td>
+                                        </tr>
+                                        {% endfor %} 
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                                <table class="table col">
+                                        <thead>
+                                            <tr>
+                                                <th>Quantidade de Materiais</th>
+                                                <th>Código Material</th>
+                                                <th>Material</th>
+                                                <th>Unidade</th>                                     
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for material in materiaisList  %}
+                                            <tr>
+                                                <td>
+                                                    {{material.quantidade_material}}
+                                                </td>
+                                                <td>
+                                                    {{material.relacionamento_materiais.codigo_material}}
+                                                </td>
+                                                <td>
+                                                    {{material.relacionamento_materiais|truncatechars:20}}
+                                                </td>
+                                                <td>
+                                                    {{material.unidade_relacionamento}}
+                                                </td>
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Aprovação</h3>
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
+                                    <i class="fa fa-minus"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <label>Aprovar Solicitação</label>
+                            {% render_field form.requisicao_processamento%}
+                        </div>
+                    </div>
                     <div class="card">
                         <div class="card-header">
                             <h3 class="card-title">Confirmação</h3>
