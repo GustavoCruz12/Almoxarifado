@@ -113,7 +113,18 @@
                             <a href="{% url 'listaSolicitacao' %}" class="d-block">Minhas Requisições</a>
 
                         </div>
+                
+                   </div>
+                   <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+                    <div class="image">
+                        <img src="{% static 'dist/img/lista4.png'%}" class="img-circle elevation-2" alt="User Image">
                     </div>
+                    <div class="info">
+
+                        <a href="{% url 'entregaLista' %}" class="d-block">Requisições</a>
+
+                    </div>
+                </div>
                 </nav>
                 <!-- /.sidebar-menu -->
             </div>
@@ -135,7 +146,7 @@
                                     <a href="{% url 'home'%}">Pagina Inicial</a>
                                 </li>
                                 <li class="breadcrumb-item active">
-                                    <a href="{% url 'listaSolicitacao' %}"> Suas Solicitações</a>
+                                    <a href="{% url 'entregaLista' %}">Lista de Requisições</a>
                                 </li>
                                 <li class="breadcrumb-item active">Detalhes</li>
                             </ol>

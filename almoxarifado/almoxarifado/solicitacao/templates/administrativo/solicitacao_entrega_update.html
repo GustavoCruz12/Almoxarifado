@@ -104,17 +104,17 @@
 
                         </div>
                     </div>
-
                     <div class="user-panel mt-3 pb-3 mb-3 d-flex">
                         <div class="image">
-                            <img src="{% static 'dist/img/lista1.jpg'%}" class="img-circle elevation-2" alt="User Image">
+                            <img src="{% static 'dist/img/lista4.png'%}" class="img-circle elevation-2" alt="User Image">
                         </div>
                         <div class="info">
 
-                            <a href="{% url 'listaSolicitacao' %}" class="d-block">Minhas Requisições</a>
+                            <a href="{% url 'entregaLista' %}" class="d-block">Requisições</a>
 
                         </div>
                     </div>
+
                 </nav>
                 <!-- /.sidebar-menu -->
             </div>
@@ -131,11 +131,19 @@
                             <h1>Almoxarifado</h1>
                         </div>
                         <div class="col-sm-6">
-                            <ol class="breadcrumb float-sm-right">
-                                <li class="breadcrumb-item"><a href="{% url 'home'%}">Pagina Inicial</a></li>
-                                <li class="breadcrumb-item active">Nova Solicitação</li>
-                            </ol>
-                        </div>
+                                <ol class="breadcrumb float-sm-right">
+                                    <li class="breadcrumb-item">
+                                        <a href="{% url 'home'%}">Pagina Inicial</a>
+                                    </li>
+                                    <li class="breadcrumb-item active">
+                                        <a href="{% url 'entregaLista' %}">Lista de Requisições</a>
+                                    </li>
+                                    <li class="breadcrumb-item active">
+                                            <a href="{% url 'entregaDetalhe' solicitacao.pk %}">Detalhes</a>
+                                        </li>
+                                    <li class="breadcrumb-item active">Relaçao de itens</li>
+                                </ol>
+                            </div>
                     </div>
                 </div>
                 <!-- /.container-fluid -->
@@ -196,8 +204,8 @@
                                 <table class="table table-hover">
                                     <thead>
                                         <tr>
-                                            <th scope="col">Código Material / Material</th>
-                                            <th scope="col">Quantidade Aprovada</th>
+                                            <th scope="col">Material</th>
+                                            <th scope="col">Quantidade</th>
                                             <th scope="col">Unidade</th>
                                             {% comment %}
                                             <th scope="col">Handle</th> {% endcomment %}

@@ -1,4 +1,6 @@
-{% load static %} {% load staticfiles %} {% load widget_tweaks %}
+{% load static %} 
+{% load staticfiles %} 
+{% load widget_tweaks %}
 
 <!DOCTYPE html>
 
@@ -114,6 +116,17 @@
 
                         </div>
                     </div>
+                    <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+                        <div class="image">
+                            <img src="{% static 'dist/img/lista4.png'%}" class="img-circle elevation-2" alt="User Image">
+                        </div>
+                        <div class="info">
+
+                            <a href="{% url 'listaAdministrativo' %}" class="d-block">Requisições</a>
+
+                        </div>
+                    </div>
+
                 </nav>
                 <!-- /.sidebar-menu -->
             </div>
@@ -135,7 +148,7 @@
                                     <a href="{% url 'home'%}">Pagina Inicial</a>
                                 </li>
                                 <li class="breadcrumb-item active">
-                                    <a href="{% url 'listaSolicitacao' %}"> Suas Solicitações</a>
+                                    <a href="{% url 'listaAdministrativo' %}">{{solicitacao.numero_descricao}}</a>
                                 </li>
                                 <li class="breadcrumb-item active">Detalhes</li>
                             </ol>
@@ -234,7 +247,8 @@
                             <thead>
                                 <tr>
                                     <th scope="col">Quantidade</th>
-                                    <th scope="col">Código Material /  Material</th>
+                                    <th scope="col">Código Material</th>
+                                    <th scope="col">Material</th>
                                     <th scope="col">Quantidade Aprovada</th>
                                     {% comment %}
                                     <th scope="col">Handle</th> {% endcomment %}
@@ -244,7 +258,7 @@
                                 {% for material in materiais %}
                                 <tr>
                                     <th scope="row">{{material.quantidade_material}}</th>
-                                    
+                                    <td>{{material.relacionamento_materiais.codigo_material}}</td>
                                     <td>{{material.relacionamento_materiais}}</td>
                                     <td>{{material.quantidade_aprovada|default_if_none:"Aguarde o Processamento"}}</td>
                                 </tr>

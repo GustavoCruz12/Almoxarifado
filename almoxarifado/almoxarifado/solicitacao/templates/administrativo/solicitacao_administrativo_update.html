@@ -1,8 +1,17 @@
-{% load static %} {% load staticfiles %} {% load widget_tweaks %}
+{% load static %} 
+{% load staticfiles %} 
+{% load widget_tweaks %}
 
 <!DOCTYPE html>
 
 <head>
+
+    <style>
+        #p01 {
+            border-block-start-color: brown;
+        }
+    </style>
+
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Sistema Almoxarifado</title>
@@ -115,6 +124,16 @@
 
                         </div>
                     </div>
+                    <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+                        <div class="image">
+                            <img src="{% static 'dist/img/lista4.png'%}" class="img-circle elevation-2" alt="User Image">
+                        </div>
+                        <div class="info">
+
+                            <a href="{% url 'listaAdministrativo' %}" class="d-block">Requisições</a>
+
+                        </div>
+                    </div>
                 </nav>
                 <!-- /.sidebar-menu -->
             </div>
@@ -133,7 +152,9 @@
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
                                 <li class="breadcrumb-item"><a href="{% url 'home'%}">Pagina Inicial</a></li>
-                                <li class="breadcrumb-item active">Nova Solicitação</li>
+                                <li class="breadcrumb-item">{{solicitacao.numero_descricao}}</li>
+                                <li class="breadcrumb-item"><a href="{% url 'detalheAdministrativo' solicitacao.pk%}">Detalhes</a></li>
+                                <li class="breadcrumb-item">Administrar</li>
                             </ol>
                         </div>
                     </div>
@@ -146,39 +167,7 @@
                 <form action="" method="post" enctype="multipart/form-data">
                     {% csrf_token %} {{form.media}} {% for hidden_field in form.hidden_fields %} {{hidden_field}} {% endfor %}
                     <!-- Default box -->
-                    <div class="card">
-                        <div class="card-header">
-                            <h3 class="card-title">Movimentação</h3>
-                            <div class="card-tools">
-                                <button type="button" class="btn btn-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
-                                    <i class="fa fa-minus"></i>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <div class="col-md-8">
-                                <label>Almoxarifado</label>
-                                <div class="input-group date">
-                                    {% render_field form.almoxarifado_relacionamento class="form-control" %}
-                                </div>
-                            </div>
-
-                            <div class="col-md-8">
-                                <label>Movimentação</label>
-                                <div class="input-group date">
-                                    {% render_field form.movimentacao_relacionamento class="form-control" %}
-                                </div>
-                            </div>
-
-                            <div class="col-md-8">
-                                <label>Departamento</label>
-                                <div class="input-group date">
-                                    {% render_field form.departamento_relacionamento class="form-control" %}
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card-footer"></div>
-                    </div>
+                    
                     <div class="card">
                         <div class="card-header">
                             <h3 class="card-title">Itens</h3>
@@ -190,7 +179,7 @@
                         </div>
                         <div class="card-body">
                             <div class="row">
-                                <table class="table col-sm-2">
+                                <table class="table table-striped col-sm-2">
                                     {{ materiais.management_form }}
                                     <thead>
                                         <tr>
@@ -216,7 +205,7 @@
                                         {% endfor %}
                                     </tbody>
                                 </table>
-                                <table class="table col">
+                                <table class="table table-striped col" id="p01">
                                         <thead>
                                             <tr>
                                                 <th>Quantidade de Materiais</th>

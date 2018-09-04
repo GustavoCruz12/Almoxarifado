@@ -124,7 +124,7 @@ class SolicitacaoAdminstrativoList(LoginRequiredMixin, ListView):
 
 class SolicitacaoAdministrativoDetail(LoginRequiredMixin, DetailView):
     model = Solicitacao
-    template_name = 'administrativo/solicitacao_detail.html'
+    template_name = 'administrativo/solicitacao_administrativo_detail.html'
 
     def get_context_data(self, **kwargs):
         context = super(SolicitacaoAdministrativoDetail, self).get_context_data(**kwargs)
@@ -135,7 +135,7 @@ class SolicitacaoAdministrativoDetail(LoginRequiredMixin, DetailView):
 
 class SolicitacaoCreateUpdate(LoginRequiredMixin, UpdateView):
     model = Solicitacao
-    template_name = 'administrativo/solicitacao_update.html'
+    template_name = 'administrativo/solicitacao_administrativo_update.html'
     form_class = SolicitacaoForm
 
     def get_context_data(self, **kwargs):
@@ -173,13 +173,13 @@ class SolicitacaoListEntrega(LoginRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super(SolicitacaoListEntrega, self).get_context_data(**kwargs)
         context["solicitacoesS"] = Solicitacao.objects.filter(status='True', requisicao_processamento='True', requisicao_recebido='False', requisicao_transito='False').order_by('-data_emissao')
-        context["solicitacoesE"] = Solicitacao.objects.filter(status='True', requisicao_processamento='True', requisicao_transito='True')
+        context["solicitacoesE"] = Solicitacao.objects.filter(status='True', requisicao_processamento='True', requisicao_transito='True').order_by('-data_emissao')
         context["solicitacoesF"] = Solicitacao.objects.filter(status='True', requisicao_recebido='True').order_by('-data_emissao')
         return context
     
 class SolicitacaoDetailEntrega(LoginRequiredMixin, DetailView):
     model = Solicitacao
-    template_name = 'administrativo/solicitacao_entrega.html'
+    template_name = 'administrativo/solicitacao_entrega_detail.html'
 
     def get_context_data(self, **kwargs):
         context = super(SolicitacaoDetailEntrega, self).get_context_data(**kwargs)
@@ -189,7 +189,7 @@ class SolicitacaoDetailEntrega(LoginRequiredMixin, DetailView):
 
 class SolicitacaoCreateEntrega(LoginRequiredMixin, UpdateView):
     model = Solicitacao
-    template_name = 'administrativo/entrega_update.html'
+    template_name = 'administrativo/solicitacao_entrega_update.html'
     form_class = SolicitacaoForm
     success_url = reverse_lazy('entregaLista')
 

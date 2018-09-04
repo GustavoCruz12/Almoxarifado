@@ -31,7 +31,7 @@ class Solicitacao(models.Model):
     STATUS_CHOICES = (
         (ABERTA , 'Aberta'),
         (FECHADA, 'fechada'),
-    )
+    ) 
     status = models.BooleanField('Status da Solicitação', choices=STATUS_CHOICES, default=ABERTA)
     data_emissao = models.DateField(auto_now_add=True)
     numero_descricao = models.CharField(default=numero_solicitacao, max_length=255)
