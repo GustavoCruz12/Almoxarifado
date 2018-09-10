@@ -6,6 +6,7 @@ from django.views.generic import TemplateView
 from django.views import defaults as default_views
 
 urlpatterns = [
+    path("select2/", include('django_select2.urls')),
     path("", TemplateView.as_view(template_name="pages/home.html"), name="home"),
     path(
         "about/",

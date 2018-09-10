@@ -46,6 +46,10 @@ class Solicitacao(models.Model):
     class Meta:
         verbose_name = 'Solicitação'
         verbose_name_plural = 'Solicitações'
+        permissions = (
+            ('administrativo_permissao', 'administrativo permissao'),
+            ('entrega_permissao', 'entrega permissao'),
+        )
 
     def __str__(self):
         return self.numero_descricao

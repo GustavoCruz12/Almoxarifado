@@ -5,34 +5,6 @@ from .models import (Solicitacao, Movimentacao, Materiais, Materiais_Solicitacao
 from secretaria.models import (Departamento, Secretaria, Almoxarifado)
 
 
-class DepartamentoForm(forms.ModelForm):
-    nome_secretaria = forms.ModelChoiceField(
-        queryset=Secretaria.objects.all(),
-        label=u"Secretaria",
-        widget=ModelSelect2Widget(
-            model=Secretaria,
-            search_fields=['nome_secretaria__icontains']
-        )
-    )
-    nome_departamento = forms.ModelChoiceField(
-        queryset=Departamento.objects.all(),
-        label=u"Departamento",
-        widget=ModelSelect2Widget(
-            model=Departamento,
-            search_fields=['nome_departamento__icontains'],
-            dependent_fields={'nome_secretaria': 'Secretaria'},
-            max_results=500,
-        )
-    )
-
-
-class SecretariaForm(forms.ModelForm):
-
-    class Meta:
-        model = Secretaria
-        fields = ['nome_secretaria']
-
-
 class SolicitacaoForm(forms.ModelForm):
 
     class Meta:

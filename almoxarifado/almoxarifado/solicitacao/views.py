@@ -11,9 +11,11 @@ from django.shortcuts import render, redirect, get_object_or_404
 
 from django.db import transaction
 
+from django.contrib import messages
+
 from django.urls import reverse_lazy, reverse
 
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 
 from .models import (Solicitacao, Materiais_Solicitacao)
 
@@ -41,7 +43,7 @@ class SolicitacaoCreate(LoginRequiredMixin, CreateView):
     def get_context_data(self, **kwargs):
         data = super(SolicitacaoCreate, self).get_context_data(**kwargs)
         if self.request.POST:
-            data['materiais'] = MateriaisFormSetUP(self.request.POST,)
+            data['materiais'] = MateriaisFormSetUP(self.request.POST)
         else:
             data['materiais'] = MateriaisFormSetUP()
         return data
@@ -110,16 +112,22 @@ class SolicitacaoSecretarioList(LoginRequiredMixin, ListView):
 ##   Parte Administrativa do sistema ##
 #######################################
 
-
-class SolicitacaoAdminstrativoList(LoginRequiredMixin, ListView):
+class SolicitacaoAdminstrativoList(PermissionRequiredMixin, ListView):
+    permission_required = 'administrativo_permissao'
+    raise_exception = True
     model = Solicitacao
     template_name = 'administrativo/solicitacao_administrativo_list.html'
+    
 
     def get_context_data(self, **kwargs):
         context = super(SolicitacaoAdminstrativoList, self).get_context_data(**kwargs)
         context['solicitacoesE'] = Solicitacao.objects.filter(status='True', requisicao_processamento='False').order_by('-data_emissao')
         context['solicitacoesA'] = Solicitacao.objects.filter(status='True', requisicao_processamento='True').order_by('-data_emissao')
         return context
+
+    def handle_no_permission(self):
+        messages.error(self.request, 'Voce nao tem permissao para acessar esta pagina')
+        return super(SolicitacaoAdminstrativoList, self).handle_no_permission()
 
 
 class SolicitacaoAdministrativoDetail(LoginRequiredMixin, DetailView):

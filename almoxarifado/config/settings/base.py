@@ -71,6 +71,7 @@ THIRD_PARTY_APPS = [
     'rest_framework',
     'widget_tweaks',
     'easy_pdf',
+    'django_select2',
 ]
 LOCAL_APPS = [
     'almoxarifado.users.apps.UsersAppConfig',
@@ -143,7 +144,13 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-]
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django_session_timeout.middleware.SessionTimeoutMiddleware',
+    ]
+
+SESSION_EXPIRE_SECONDS = 1200
+SESSION_EXPIRE_AFTER_LAST_ACTIVITY = True
+
 
 # STATIC
 # ------------------------------------------------------------------------------
