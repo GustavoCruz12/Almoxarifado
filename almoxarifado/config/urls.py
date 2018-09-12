@@ -4,10 +4,11 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.views.generic import TemplateView
 from django.views import defaults as default_views
+from solicitacao.views import PaginaInicialSistema
 
 urlpatterns = [
     path("select2/", include('django_select2.urls')),
-    path("", TemplateView.as_view(template_name="pages/home.html"), name="home"),
+    path("", PaginaInicialSistema.as_view(), name="home"),
     path(
         "about/",
         TemplateView.as_view(template_name="pages/about.html"),

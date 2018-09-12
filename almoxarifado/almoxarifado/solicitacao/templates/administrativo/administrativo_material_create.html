@@ -1,5 +1,5 @@
-{% load static %} 
-{% load staticfiles %} 
+{% load static %}
+{% load staticfiles %}
 {% load widget_tweaks %}
 
 <!DOCTYPE html>
@@ -10,7 +10,8 @@
     <title>Sistema Almoxarifado</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+        crossorigin="anonymous">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
     <!-- Ionicons -->
@@ -19,6 +20,7 @@
     <link rel="stylesheet" href="{% static 'dist/css/adminlte.min.css'%}">
     <!-- Google Font: Source Sans Pro -->
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+
 </head>
 
 <body class="hold-transition sidebar-mini sidebar-collapse">
@@ -144,10 +146,10 @@
                         </div>
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
-                                <li class="breadcrumb-item"><a href="{% url 'home'%}">Pagina Inicial</a></li>
+                                {% comment %} <li class="breadcrumb-item"><a href="{% url 'home'%}">Pagina Inicial</a></li>
                                 <li class="breadcrumb-item">{{solicitacao.numero_descricao}}</li>
-                                <li class="breadcrumb-item"><a href="{% url 'detalheAdministrativo' solicitacao.pk%}">Detalhes</a></li>
-                                <li class="breadcrumb-item">Administrar</li>
+                                <li class="breadcrumb-item"><a href="#">Detalhes</a></li>
+                                <li class="breadcrumb-item">Administrar</li> {% endcomment %}
                             </ol>
                         </div>
                     </div>
@@ -158,112 +160,53 @@
             <!-- Main content -->
             <section class="content">
                 <form action="" method="post" enctype="multipart/form-data">
-                    {% csrf_token %} 
-                    {{form.media}} 
-                    {% for hidden_field in form.hidden_fields %} 
-                    {{hidden_field}} 
+                    {% csrf_token %}
+                    {{form.media}}
+                    {% for hidden_field in form.hidden_fields %}
+                    {{hidden_field}}
                     {% endfor %}
                     <!-- Default box -->
-                    
-                    <div class="card">
-                        <div class="card-header">
-                            <h3 class="card-title">Itens</h3>
-                            <div class="card-tools">
-                                <button type="button" class="btn btn-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
-                                    <i class="fa fa-minus"></i>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <div class="row">
-                                <table class="table table-striped col-sm-2">
-                                    {{ materiais.management_form }}
-                                    <thead>
-                                        <tr>
-                                            <th>Quantidade Aprovada</th>                                        
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {% for form in materiais.forms %}
-                                        {% for field in form.visible_fields %}
-                                        <tr class="">
-                                            <td>
-                                                {# Include the hidden fields in the form #} 
-                                                {% if forloop.first %} 
-                                                {% for hidden in form.hidden_fields %} 
-                                                {{ hidden }} 
-                                                {%endfor %} 
-                                                {% endif %} 
-                                                {{ field.errors.as_ul }} 
-                                                {{form.quantidade_aprovada}}
-                                            </td>
-                                        </tr>
-                                        {% endfor %} 
-                                        {% endfor %}
-                                    </tbody>
-                                </table>
-                                <table class="table table-striped col" id="p01">
-                                        <thead>
-                                            <tr>
-                                                <th>Quantidade de Materiais</th>
-                                                <th>Código Material</th>
-                                                <th>Material</th>
-                                                <th>Unidade</th>                                     
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {% for material in materiaisList  %}
-                                            <tr>
-                                                <td>
-                                                    {{material.quantidade_material}}
-                                                </td>
-                                                <td>
-                                                    {{material.relacionamento_materiais.codigo_material}}
-                                                </td>
-                                                <td>
-                                                    {{material.relacionamento_materiais|truncatechars:20}}
-                                                </td>
-                                                <td>
-                                                    {{material.unidade_relacionamento}}
-                                                </td>
-                                            </tr>
-                                            {% endfor %}
-                                        </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div class="card-header">
-                            <h3 class="card-title">Aprovação</h3>
-                            <div class="card-tools">
-                                <button type="button" class="btn btn-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
-                                    <i class="fa fa-minus"></i>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <label>Aprovar Solicitação</label>
-                            {% render_field form.requisicao_processamento%}
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div class="card-header">
-                            <h3 class="card-title">Confirmação</h3>
-                            <div class="card-tools">
-                                <button type="button" class="btn btn-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
-                                    <i class="fa fa-minus"></i>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <button type="submit" class="btn btn-primary glyphicon glyphicon-ok"> Enviar </button>
 
-                            <a href="{% url 'listaAdministrativo' %}" class="btn btn-danger glyphicon-ok glyphicon glyphicon-remove"> Cancelar</a>
+                    <div class="card">
+                        <div class="card-header">
+                            <h5>Materiais</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="row mx-auto">
+                                <div class="card col-sm-6">
+                                    <div class="card-header">
+                                        <h6>Código do Material</h6>
+                                    </div>
+                                    <div class="card-body">
+                                        {% render_field form.codigo_material class="form-control" %}
+                                    </div>
+                                </div>
+                                <div class="card col-sm-6">
+                                    <div class="card-header">
+                                        <h6>Descrição do material</h6>
+                                    </div>
+                                    <div class="card-body">
+                                        {% render_field form.descricao_material class="form-control" %}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-header">
+                                    <h6>Almoxarifado</h6>
+                                </div>
+                                <div class="card-body">
+                                    {% render_field form.almoxarifado_relacionamento class="form-control" %}
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-outline-primary">Adicionar</button>
+                            <a class="btn btn-outline-danger" href="{% url 'listaAdministrativo' %}">Voltar</a>
+
                         </div>
                         <div class="card-footer">
 
                         </div>
+
+
                     </div>
                 </form>
             </section>
@@ -305,7 +248,8 @@
 
     <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js" integrity="sha256-0YPKAwZP7Mp3ALMRVB2i8GXeEndvCq3eSl/WsAl1Ryk="
         crossorigin="anonymous"></script>
-    <script src="https://code.jquery.com/jquery-2.2.4.js" integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-2.2.4.js" integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI="
+        crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.formset/1.2.2/jquery.formset.js"></script>
 
 </body>

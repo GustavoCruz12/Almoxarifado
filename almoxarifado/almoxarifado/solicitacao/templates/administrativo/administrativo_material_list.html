@@ -1,6 +1,4 @@
-{% load static %} 
-{% load staticfiles %} 
-{% load widget_tweaks %}
+{% load static %} {% load staticfiles %} {% load widget_tweaks %}
 
 <!DOCTYPE html>
 
@@ -64,7 +62,6 @@
                     </div>
                 </li>
             </ul>
-
         </nav>
         <!-- /.navbar -->
 
@@ -72,7 +69,8 @@
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
             <a href="{% static 'index3.html'%}" class="brand-link">
-                <img src="{% static 'dist/img/logoSerrana.jpg'%}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3">
+                <img src="{% static 'dist/img/logoSerrana.jpg'%}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
+                    style="opacity: .8">
                 <span class="brand-text font-weight-light">Prefeitura de Serrana</span>
             </a>
 
@@ -92,7 +90,7 @@
 
                 <!-- Sidebar Menu -->
                 <nav class="mt-2">
-                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="tree" role="menu" data-accordion="false">
+                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                         <!-- Add icons to the links using the .nav-icon class
                          with font-awesome or any other icon font library -->
                     </ul>
@@ -113,7 +111,7 @@
                         </div>
                         <div class="info">
 
-                            <a href="{% url 'listaSolicitacao' %}" class="d-block">Minhas Requisições</a>
+                            <a href="{% url 'listaAdministrativo' %}" class="d-block">Requisições</a>
 
                         </div>
                     </div>
@@ -134,6 +132,16 @@
         </aside>
 
         <!-- Content Wrapper. Contains page content -->
+
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            <li {% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+
+
         <div class="content-wrapper">
             <!-- Content Header (Page header) -->
             <section class="content-header">
@@ -144,10 +152,10 @@
                         </div>
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
-                                <li class="breadcrumb-item"><a href="{% url 'home'%}">Pagina Inicial</a></li>
-                                <li class="breadcrumb-item">{{solicitacao.numero_descricao}}</li>
-                                <li class="breadcrumb-item"><a href="{% url 'detalheAdministrativo' solicitacao.pk%}">Detalhes</a></li>
-                                <li class="breadcrumb-item">Administrar</li>
+                                <li class="breadcrumb-item">
+                                    <a href="{% url 'listaAdministrativo'%}">Pagina Inicial</a>
+                                </li>
+                                <li class="breadcrumb-item active">Requisições de Usúario</li>
                             </ol>
                         </div>
                     </div>
@@ -157,121 +165,146 @@
 
             <!-- Main content -->
             <section class="content">
-                <form action="" method="post" enctype="multipart/form-data">
-                    {% csrf_token %} 
-                    {{form.media}} 
-                    {% for hidden_field in form.hidden_fields %} 
-                    {{hidden_field}} 
-                    {% endfor %}
-                    <!-- Default box -->
-                    
-                    <div class="card">
-                        <div class="card-header">
-                            <h3 class="card-title">Itens</h3>
-                            <div class="card-tools">
-                                <button type="button" class="btn btn-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
-                                    <i class="fa fa-minus"></i>
-                                </button>
-                            </div>
+                <!-- Default box -->
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Materiais</h3>
+                        <div class="card-tools">
+                            <button type="button" class="btn btn-tool" data-widget="collapse" data-toggle="tooltip"
+                                title="Collapse">
+                                <i class="fa fa-minus"></i>
+                            </button>
                         </div>
-                        <div class="card-body">
-                            <div class="row">
-                                <table class="table table-striped col-sm-2">
-                                    {{ materiais.management_form }}
-                                    <thead>
+                    </div>
+                    <div class="card-body">
+                        <ul class="nav nav-tabs">
+                            <li class="nav-item">
+                                <a class="nav-link active" data-toggle="tab" href="#home">Saúde</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#menu1">Educação</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#menu2">DAES</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#menu3">Oficina</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#menu4">Cozinha Piloto</a>
+                            </li>
+                        </ul>
+
+                        <!-- Tab panes -->
+                        <div class="tab-content">
+                            <div class="tab-pane container active" id="home">
+                                <table class="table">
+                                    <thead class="thead-dark">
                                         <tr>
-                                            <th>Quantidade Aprovada</th>                                        
+                                            <th>Descrição do Material</th>
+                                            <th>Código Material</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {% for form in materiais.forms %}
-                                        {% for field in form.visible_fields %}
-                                        <tr class="">
-                                            <td>
-                                                {# Include the hidden fields in the form #} 
-                                                {% if forloop.first %} 
-                                                {% for hidden in form.hidden_fields %} 
-                                                {{ hidden }} 
-                                                {%endfor %} 
-                                                {% endif %} 
-                                                {{ field.errors.as_ul }} 
-                                                {{form.quantidade_aprovada}}
-                                            </td>
+                                        {% for MaterialSaude in MateriaisSaude %}
+                                        <tr>
+                                            <td>{{MaterialSaude.descricao_material}}</td>
+                                            <td>{{MaterialSaude.codigo_material}}</td>
                                         </tr>
-                                        {% endfor %} 
                                         {% endfor %}
                                     </tbody>
                                 </table>
-                                <table class="table table-striped col" id="p01">
-                                        <thead>
-                                            <tr>
-                                                <th>Quantidade de Materiais</th>
-                                                <th>Código Material</th>
-                                                <th>Material</th>
-                                                <th>Unidade</th>                                     
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {% for material in materiaisList  %}
-                                            <tr>
-                                                <td>
-                                                    {{material.quantidade_material}}
-                                                </td>
-                                                <td>
-                                                    {{material.relacionamento_materiais.codigo_material}}
-                                                </td>
-                                                <td>
-                                                    {{material.relacionamento_materiais|truncatechars:20}}
-                                                </td>
-                                                <td>
-                                                    {{material.unidade_relacionamento}}
-                                                </td>
-                                            </tr>
-                                            {% endfor %}
-                                        </tbody>
+                            </div>
+                            <div class="tab-pane container fade" id="menu1">
+                                <table class="table">
+                                    <thead class="thead-dark">
+                                        <tr>
+                                            <th>Descrição do Material</th>
+                                            <th>Código Material</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for MaterialEducacao in MateriaisEducacao %}
+                                        <tr>
+                                            <td>{{MaterialEducacao.descricao_material}}</td>
+                                            <td>{{MaterialEducacao.codigo_material}}</td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="tab-pane container fade" id="menu2">
+                                <table class="table">
+                                    <thead class="thead-dark">
+                                        <tr>
+                                            <th>Descrição do Material</th>
+                                            <th>Código Material</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for MaterialDaes in MateriaisDaes %}
+                                        <tr>
+                                            <td>{{MaterialDaes.descricao_material}}</td>
+                                            <td>{{MaterialDaes.codigo_material}}</td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="tab-pane container fade" id="menu3">
+                                <table class="table">
+                                    <thead class="thead-dark">
+                                        <tr>
+                                            <th>Descrição do Material</th>
+                                            <th>Código Material</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for MaterialOficina in MateriaisOficina %}
+                                        <tr>
+                                            <td>{{MaterialOficina.descricao_material}}</td>
+                                            <td>{{MaterialOficina.codigo_material}}</td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="tab-pane container fade" id="menu4">
+                                <table class="table">
+                                    <thead class="thead-dark">
+                                        <tr>
+                                            <th>Descrição do Material</th>
+                                            <th>Código Material</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for MaterialCozinha in MateriaisCozinha %}
+                                        <tr>
+                                            <td>{{MaterialCozinha.descricao_material}}</td>
+                                            <td>{{MaterialCozinha.codigo_material}}</td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
                                 </table>
                             </div>
                         </div>
                     </div>
-                    <div class="card">
-                        <div class="card-header">
-                            <h3 class="card-title">Aprovação</h3>
-                            <div class="card-tools">
-                                <button type="button" class="btn btn-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
-                                    <i class="fa fa-minus"></i>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <label>Aprovar Solicitação</label>
-                            {% render_field form.requisicao_processamento%}
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div class="card-header">
-                            <h3 class="card-title">Confirmação</h3>
-                            <div class="card-tools">
-                                <button type="button" class="btn btn-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
-                                    <i class="fa fa-minus"></i>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <button type="submit" class="btn btn-primary glyphicon glyphicon-ok"> Enviar </button>
-
-                            <a href="{% url 'listaAdministrativo' %}" class="btn btn-danger glyphicon-ok glyphicon glyphicon-remove"> Cancelar</a>
-                        </div>
-                        <div class="card-footer">
-
-                        </div>
-                    </div>
-                </form>
-            </section>
+                </div>
         </div>
-        <!-- /.card -->
+        <div class="card-footer"></div>
+    </div>
 
-        </section>
-        <!-- /.content -->
+    <!-- /.card-body -->
+    <div class="card-footer">
+
+    </div>
+    <!-- /.card-footer-->
+    </div>
+    <!-- /.card -->
+
+    </section>
+    <!-- /.content -->
     </div>
     <!-- /.content-wrapper -->
 
@@ -305,7 +338,7 @@
 
     <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js" integrity="sha256-0YPKAwZP7Mp3ALMRVB2i8GXeEndvCq3eSl/WsAl1Ryk="
         crossorigin="anonymous"></script>
-    <script src="https://code.jquery.com/jquery-2.2.4.js" integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-2.2.4.js" integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI="
+        crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.formset/1.2.2/jquery.formset.js"></script>
-
 </body>

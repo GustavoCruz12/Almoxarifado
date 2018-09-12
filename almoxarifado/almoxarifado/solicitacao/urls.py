@@ -14,10 +14,15 @@ urlpatterns = [
     path('administrativo/lista/', views.SolicitacaoAdminstrativoList.as_view(), name='listaAdministrativo'),
     path('administrativo/lista/detalhe/<int:pk>', views.SolicitacaoAdministrativoDetail.as_view(), name='detalheAdministrativo'),
     path('administrativo/lista/detalhe/aprovacao/<int:pk>', views.SolicitacaoCreateUpdate.as_view(), name='createAdministrativo'),
-    
+
     path('administrativo/entrega/lista/', views.SolicitacaoListEntrega.as_view(), name='entregaLista'),
     path('administrativo/entrega/lista/detalhes/<int:pk>', views.SolicitacaoDetailEntrega.as_view(), name='entregaDetalhe'),
     path('administrativo/entrega/detalhe/separacao_e_entrega/<int:pk>', views.SolicitacaoCreateEntrega.as_view(), name='entregaUpdate'),
+
+    # materiais
+    path('administrativo/materiais/novo', views.MateriaisCreate.as_view(), name='materiaiscreate'),
+    path('administrativo/materiais/lista', views.MateriaisList.as_view(), name='materiaislist'),
+
 ]
 
 

@@ -17,9 +17,9 @@ from django.urls import reverse_lazy, reverse
 
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 
-from .models import (Solicitacao, Materiais_Solicitacao)
+from .models import (Solicitacao, Materiais_Solicitacao, Materiais)
 
-from .forms import (SolicitacaoForm, MateriaisFormSet, MateriaisFormSetUP)
+from .forms import (SolicitacaoForm, MateriaisFormSet, MateriaisFormSetUP, MateriaisForm)
 
 from .render import Render
 
@@ -28,6 +28,14 @@ from secretaria.models import Almoxarifado
 from almoxarifado.users.models import User
 
 
+class PaginaInicialSistema(LoginRequiredMixin, ListView):
+    model = Solicitacao
+    template_name = "solicitacao/pagina_inicial.html"
+
+    def get_context_data(self, **kwargs):
+        context = super(PaginaInicialSistema, self).get_context_data(**kwargs)
+        context['user_is_adm'] = self.request.user.groups.filter(name='administrativo_permissao').exists()
+        return context        
 
 #############################
 ## Parte do usuário inicio ##
@@ -125,12 +133,10 @@ class SolicitacaoAdminstrativoList(PermissionRequiredMixin, ListView):
         context['solicitacoesA'] = Solicitacao.objects.filter(status='True', requisicao_processamento='True').order_by('-data_emissao')
         return context
 
-    def handle_no_permission(self):
-        messages.error(self.request, 'Voce nao tem permissao para acessar esta pagina')
-        return super(SolicitacaoAdminstrativoList, self).handle_no_permission()
 
-
-class SolicitacaoAdministrativoDetail(LoginRequiredMixin, DetailView):
+class SolicitacaoAdministrativoDetail(PermissionRequiredMixin, DetailView):
+    permission_required = 'administrativo_permissao'
+    raise_exception = True
     model = Solicitacao
     template_name = 'administrativo/solicitacao_administrativo_detail.html'
 
@@ -141,7 +147,9 @@ class SolicitacaoAdministrativoDetail(LoginRequiredMixin, DetailView):
         return context
 
 
-class SolicitacaoCreateUpdate(LoginRequiredMixin, UpdateView):
+class SolicitacaoCreateUpdate(PermissionRequiredMixin, UpdateView):
+    permission_required = 'administrativo_permissao'
+    raise_exception = True
     model = Solicitacao
     template_name = 'administrativo/solicitacao_administrativo_update.html'
     form_class = SolicitacaoForm
@@ -174,7 +182,9 @@ class SolicitacaoCreateUpdate(LoginRequiredMixin, UpdateView):
 ##   Parte Administrativa do sistema separação e entrega ##
 ###########################################################
 
-class SolicitacaoListEntrega(LoginRequiredMixin, ListView):
+class SolicitacaoListEntrega(PermissionRequiredMixin, ListView):
+    permission_required = 'entrega_permissao'
+    raise_exception = True
     model = Solicitacao
     template_name = 'administrativo/solicitacao_entrega_list.html'
 
@@ -185,7 +195,9 @@ class SolicitacaoListEntrega(LoginRequiredMixin, ListView):
         context["solicitacoesF"] = Solicitacao.objects.filter(status='True', requisicao_recebido='True').order_by('-data_emissao')
         return context
     
-class SolicitacaoDetailEntrega(LoginRequiredMixin, DetailView):
+class SolicitacaoDetailEntrega(PermissionRequiredMixin, DetailView):
+    permission_required = 'entrega_permissao'
+    raise_exception = True
     model = Solicitacao
     template_name = 'administrativo/solicitacao_entrega_detail.html'
 
@@ -195,7 +207,9 @@ class SolicitacaoDetailEntrega(LoginRequiredMixin, DetailView):
         context['materiais'] = Materiais_Solicitacao.objects.all().filter(relacionamento_solicitacao_id=self.object)
         return context
 
-class SolicitacaoCreateEntrega(LoginRequiredMixin, UpdateView):
+class SolicitacaoCreateEntrega(PermissionRequiredMixin, UpdateView):
+    permission_required = 'entrega_permissao'
+    raise_exception = True
     model = Solicitacao
     template_name = 'administrativo/solicitacao_entrega_update.html'
     form_class = SolicitacaoForm
@@ -206,3 +220,35 @@ class SolicitacaoCreateEntrega(LoginRequiredMixin, UpdateView):
         context['solicitacoes'] = Solicitacao.objects.all()
         context['materiais'] = Materiais_Solicitacao.objects.all().filter(relacionamento_solicitacao_id=self.object)        
         return context
+
+
+#############################################
+##   Parte Administrativa do sistema itens ##
+#############################################
+
+
+class MateriaisCreate(PermissionRequiredMixin, CreateView):
+    permission_required = 'administrativo_permissao'
+    raise_exception = True
+    model = Materiais
+    context_object_name = 'material_create'
+    template_name = 'administrativo/administrativo_material_create.html'
+    form_class = MateriaisForm
+    success_url = reverse_lazy('home')
+
+class MateriaisList(PermissionRequiredMixin, ListView):
+    permission_required = 'administrativo_permissao'
+    raise_exception = True
+    model = Materiais
+    template_name = 'administrativo/administrativo_material_list.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(MateriaisList, self).get_context_data(**kwargs)
+        context["MateriaisSaude"] = Materiais.objects.filter(almoxarifado_relacionamento__descricao_almoxarifado = "Saúde" ) 
+        context["MateriaisEducacao"] = Materiais.objects.filter(almoxarifado_relacionamento__descricao_almoxarifado = "Educação" )
+        context["MateriaisDaes"] = Materiais.objects.filter(almoxarifado_relacionamento__descricao_almoxarifado = "DAES" )
+        context["MateriaisOficina"] = Materiais.objects.filter(almoxarifado_relacionamento__descricao_almoxarifado = "Oficina" )
+        context["MateriaisCozinha"] = Materiais.objects.filter(almoxarifado_relacionamento__descricao_almoxarifado = "Cozinha" )        
+        return context
+    
+

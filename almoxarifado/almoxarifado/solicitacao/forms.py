@@ -22,7 +22,9 @@ class Material_SolicitacaoForm(ModelForm):
 
     class Meta:
         model = Materiais_Solicitacao
-        exclude = ['quantidade_material', 'unidade_relacionamento', 'relacionamento_materiais']
+        exclude = ['quantidade_material', 
+                   'unidade_relacionamento', 
+                   'relacionamento_materiais']
         
 
     
@@ -35,7 +37,8 @@ class MateriaisForm(forms.ModelForm):
         model = Materiais
         fields = [
             'descricao_material',
-            'codigo_material'
+            'codigo_material',
+            'almoxarifado_relacionamento',
         ]
 
 

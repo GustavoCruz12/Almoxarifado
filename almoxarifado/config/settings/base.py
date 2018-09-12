@@ -72,6 +72,7 @@ THIRD_PARTY_APPS = [
     'widget_tweaks',
     'easy_pdf',
     'django_select2',
+    'pdfkit',
 ]
 LOCAL_APPS = [
     'almoxarifado.users.apps.UsersAppConfig',
