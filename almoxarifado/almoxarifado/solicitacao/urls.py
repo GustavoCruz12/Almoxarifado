@@ -23,6 +23,9 @@ urlpatterns = [
     path('administrativo/materiais/novo', views.MateriaisCreate.as_view(), name='materiaiscreate'),
     path('administrativo/materiais/lista', views.MateriaisList.as_view(), name='materiaislist'),
 
+
+    #secretario
+    path('secretario/lista', views.SolicitacaoSecretarioList.as_view(), name='secretarioLista'),
 ]
 
 

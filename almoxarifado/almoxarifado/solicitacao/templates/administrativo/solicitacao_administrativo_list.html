@@ -69,7 +69,8 @@
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
             <a href="{% static 'index3.html'%}" class="brand-link">
-                <img src="{% static 'dist/img/logoSerrana.jpg'%}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+                <img src="{% static 'dist/img/logoSerrana.jpg'%}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
+                    style="opacity: .8">
                 <span class="brand-text font-weight-light">Prefeitura de Serrana</span>
             </a>
 
@@ -82,7 +83,7 @@
                     </div>
                     <div class="info">
                         {% if user.is_authenticated %}
-                        <a href="#" class="d-block">{{user.username}}</a>
+                        <a href="{% url 'users:detail' user.username%}" class="d-block">{{user.username}}</a>
                         {% endif %}
                     </div>
                 </div>
@@ -94,36 +95,37 @@
                          with font-awesome or any other icon font library -->
                     </ul>
                     <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-                            <div class="image">
-                                <img src="{% static 'dist/img/nova.jpg'%}" class="img-circle elevation-2" alt="User Image">
-                            </div>
-                            <div class="info">
-                        
-                                <a href="{% url 'novaSolicitacao' %}" class="d-block">Nova Requisição</a>
-                                
-                            </div>
+                        <div class="image">
+                            <img src="{% static 'dist/img/nova.jpg'%}" class="img-circle elevation-2" alt="User Image">
                         </div>
-                    
-                        <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-                                <div class="image">
-                                    <img src="{% static 'dist/img/lista1.jpg'%}" class="img-circle elevation-2" alt="User Image">
-                                </div>
-                                <div class="info">
-                            
-                                    <a href="{% url 'listaAdministrativo' %}" class="d-block">Requisições</a>
-                                    
-                                </div>
-                            </div>
-                            <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-                                <div class="image">
-                                    <img src="{% static 'dist/img/lista4.png'%}" class="img-circle elevation-2" alt="User Image">
-                                </div>
-                                <div class="info">
-        
-                                    <a href="{% url 'listaAdministrativo' %}" class="d-block">Requisições</a>
-        
-                                </div>
-                            </div>
+                        <div class="info">
+                            <a href="{% url 'novaSolicitacao' %}" class="d-block">Nova Requisição</a>
+                        </div>
+                    </div>
+                    <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+                        <div class="image">
+                            <img src="{% static 'dist/img/lista1.jpg'%}" class="img-circle elevation-2" alt="User Image">
+                        </div>
+                        <div class="info">
+                            <a href="{% url 'listaAdministrativo' %}" class="d-block">Requisições</a>
+                        </div>
+                    </div>
+                    <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+                        <div class="image">
+                            <img src="{% static 'dist/img/logo.png'%}" class="img-circle elevation-2" alt="User Image">
+                        </div>
+                        <div class="info">
+                            <a href="{% url 'materiaiscreate' %}" class="d-block">Adicionar Materiais</a>
+                        </div>
+                    </div>
+                    <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+                        <div class="image">
+                            <img src="{% static 'dist/img/listamaterial.png'%}" class="img-circle elevation-2" alt="User Image">
+                        </div>
+                        <div class="info">
+                            <a href="{% url 'materiaislist' %}" class="d-block">Lista de Materiais</a>
+                        </div>
+                    </div>
                 </nav>
                 <!-- /.sidebar-menu -->
             </div>
@@ -135,7 +137,7 @@
         {% if messages %}
         <ul class="messages">
             {% for message in messages %}
-                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            <li {% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
             {% endfor %}
         </ul>
         {% endif %}
@@ -170,7 +172,8 @@
                     <div class="card-header">
                         <h3 class="card-title">Requisições</h3>
                         <div class="card-tools">
-                            <button type="button" class="btn btn-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
+                            <button type="button" class="btn btn-tool" data-widget="collapse" data-toggle="tooltip"
+                                title="Collapse">
                                 <i class="fa fa-minus"></i>
                             </button>
                         </div>
@@ -240,7 +243,9 @@
                 </div>
 
         </div>
-        <div class="card-footer"></div>
+        <div class="card-footer">
+            
+        </div>
     </div>
 
     <!-- /.card-body -->
@@ -286,7 +291,8 @@
 
     <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js" integrity="sha256-0YPKAwZP7Mp3ALMRVB2i8GXeEndvCq3eSl/WsAl1Ryk="
         crossorigin="anonymous"></script>
-    <script src="https://code.jquery.com/jquery-2.2.4.js" integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-2.2.4.js" integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI="
+        crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.formset/1.2.2/jquery.formset.js"></script>
     <script type="text/javascript">
         $('.formset_row').formset({

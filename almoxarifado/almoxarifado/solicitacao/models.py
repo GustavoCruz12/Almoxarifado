@@ -39,6 +39,7 @@ class Solicitacao(models.Model):
     almoxarifado_relacionamento = models.ForeignKey(Almoxarifado, on_delete=models.CASCADE)
     departamento_relacionamento = models.ForeignKey(Departamento, on_delete=models.CASCADE)
     requisicao_enviado = models.BooleanField(default=False)
+    requisicao_secretario = models.BooleanField(default=False)
     requisicao_processamento = models.BooleanField(default=False)
     requisicao_transito = models.BooleanField(default=False)
     requisicao_recebido = models.BooleanField(default=False)

@@ -99,30 +99,15 @@
                             <img src="{% static 'dist/img/nova.jpg'%}" class="img-circle elevation-2" alt="User Image">
                         </div>
                         <div class="info">
-
                             <a href="{% url 'novaSolicitacao' %}" class="d-block">Nova Requisição</a>
-
                         </div>
                     </div>
-
                     <div class="user-panel mt-3 pb-3 mb-3 d-flex">
                         <div class="image">
                             <img src="{% static 'dist/img/lista1.jpg'%}" class="img-circle elevation-2" alt="User Image">
                         </div>
                         <div class="info">
-
-                            <a href="{% url 'listaAdministrativo' %}" class="d-block">Requisições</a>
-
-                        </div>
-                    </div>
-                    <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-                        <div class="image">
-                            <img src="{% static 'dist/img/lista4.png'%}" class="img-circle elevation-2" alt="User Image">
-                        </div>
-                        <div class="info">
-
-                            <a href="{% url 'listaAdministrativo' %}" class="d-block">Requisições</a>
-
+                            <a href="{% url 'secretarioLista' %}" class="d-block">Requisições</a>
                         </div>
                     </div>
                 </nav>
@@ -133,13 +118,6 @@
 
         <!-- Content Wrapper. Contains page content -->
 
-        {% if messages %}
-        <ul class="messages">
-            {% for message in messages %}
-            <li {% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
-            {% endfor %}
-        </ul>
-        {% endif %}
 
 
         <div class="content-wrapper">
@@ -169,7 +147,7 @@
 
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">Materiais</h3>
+                        <h3 class="card-title">Requisições</h3>
                         <div class="card-tools">
                             <button type="button" class="btn btn-tool" data-widget="collapse" data-toggle="tooltip"
                                 title="Collapse">
@@ -180,19 +158,10 @@
                     <div class="card-body">
                         <ul class="nav nav-tabs">
                             <li class="nav-item">
-                                <a class="nav-link active" data-toggle="tab" href="#home">Saúde</a>
+                                <a class="nav-link active" data-toggle="tab" href="#home">Requisições em Espera</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#menu1">Educação</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#menu2">DAES</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#menu3">Oficina</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#menu4">Cozinha Piloto</a>
+                                <a class="nav-link" data-toggle="tab" href="#menu1">Requisições Aprovadas</a>
                             </li>
                         </ul>
 
@@ -202,15 +171,21 @@
                                 <table class="table">
                                     <thead class="thead-dark">
                                         <tr>
-                                            <th>Descrição do Material</th>
-                                            <th>Código Material</th>
+                                            <th>ID Requisição</th>
+                                            <th>Usuário</th>
+                                            <th>Departamento</th>
+                                            <th>Data da Requisição</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {% for MaterialSaude in MateriaisSaude %}
+                                        {% for solicitacaoE in solicitacoesE %}
                                         <tr>
-                                            <td>{{MaterialSaude.descricao_material}}</td>
-                                            <td>{{MaterialSaude.codigo_material}}</td>
+                                            <th>
+                                                <a href="{#}">{{solicitacaoE.numero_descricao}}</a>
+                                            </th>
+                                            <td>{{solicitacaoE.user}}</td>
+                                            <td>{{solicitacaoE.departamento_relacionamento}}</td>
+                                            <td>{{solicitacaoE.data_emissao}}</td>
                                         </tr>
                                         {% endfor %}
                                     </tbody>
@@ -220,69 +195,21 @@
                                 <table class="table">
                                     <thead class="thead-dark">
                                         <tr>
-                                            <th>Descrição do Material</th>
-                                            <th>Código Material</th>
+                                            <th>ID Requisição</th>
+                                            <th>Usuário</th>
+                                            <th>Departamento</th>
+                                            <th>Data da Requisição</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {% for MaterialEducacao in MateriaisEducacao %}
+                                        {% for usuarioSaudeA in usuariosSaudeA %}
                                         <tr>
-                                            <td>{{MaterialEducacao.descricao_material}}</td>
-                                            <td>{{MaterialEducacao.codigo_material}}</td>
-                                        </tr>
-                                        {% endfor %}
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div class="tab-pane container fade" id="menu2">
-                                <table class="table">
-                                    <thead class="thead-dark">
-                                        <tr>
-                                            <th>Descrição do Material</th>
-                                            <th>Código Material</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {% for MaterialDaes in MateriaisDaes %}
-                                        <tr>
-                                            <td>{{MaterialDaes.descricao_material}}</td>
-                                            <td>{{MaterialDaes.codigo_material}}</td>
-                                        </tr>
-                                        {% endfor %}
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div class="tab-pane container fade" id="menu3">
-                                <table class="table">
-                                    <thead class="thead-dark">
-                                        <tr>
-                                            <th>Descrição do Material</th>
-                                            <th>Código Material</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {% for MaterialOficina in MateriaisOficina %}
-                                        <tr>
-                                            <td>{{MaterialOficina.descricao_material}}</td>
-                                            <td>{{MaterialOficina.codigo_material}}</td>
-                                        </tr>
-                                        {% endfor %}
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div class="tab-pane container fade" id="menu4">
-                                <table class="table">
-                                    <thead class="thead-dark">
-                                        <tr>
-                                            <th>Descrição do Material</th>
-                                            <th>Código Material</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {% for MaterialCozinha in MateriaisCozinha %}
-                                        <tr>
-                                            <td>{{MaterialCozinha.descricao_material}}</td>
-                                            <td>{{MaterialCozinha.codigo_material}}</td>
+                                            <th>
+                                                <a href="{#}">{{usuarioSaudeA.numero_descricao}}</a>
+                                            </th>
+                                            <td>{{usuarioSaudeA.user}}</td>
+                                            <td>{{usuarioSaudeA.departamento_relacionamento}}</td>
+                                            <td>{{usuarioSaudeA.data_emissao}}</td>
                                         </tr>
                                         {% endfor %}
                                     </tbody>
@@ -291,8 +218,11 @@
                         </div>
                     </div>
                 </div>
+
         </div>
-        <div class="card-footer"></div>
+        <div class="card-footer">
+            
+        </div>
     </div>
 
     <!-- /.card-body -->
@@ -341,4 +271,6 @@
     <script src="https://code.jquery.com/jquery-2.2.4.js" integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI="
         crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.formset/1.2.2/jquery.formset.js"></script>
+
+
 </body>

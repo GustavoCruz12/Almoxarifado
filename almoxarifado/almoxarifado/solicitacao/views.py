@@ -23,7 +23,7 @@ from .forms import (SolicitacaoForm, MateriaisFormSet, MateriaisFormSetUP, Mater
 
 from .render import Render
 
-from secretaria.models import Almoxarifado
+from secretaria.models import Almoxarifado, Departamento
 
 from almoxarifado.users.models import User
 
@@ -107,13 +107,36 @@ class SolicitacaoDelete(LoginRequiredMixin, DeleteView):
 
 class SolicitacaoSecretarioList(LoginRequiredMixin, ListView):
     model = Solicitacao
-    template_name = 'solicitacao/solicitacao_sec_list.html'
+    template_name = 'secretario/solicitacao_sec_list.html'
 
     def get_context_data(self, **kwargs):
         context = super(SolicitacaoSecretarioList, self).get_context_data(**kwargs)
-        
-        return context
+        user_id = self.request.user
+        sec_id = user_id.secretaria_user_id
+        context['solicitacoesE'] = Solicitacao.objects.filter(departamento_relacionamento__secretaria_relacionamento_id = sec_id)
 
+
+
+
+        # Em espera Lista
+        # context['usuariosSaudeE'] = Solicitacao.objects.filter(user__secretaria_user = "SAUDE").filter(requisicao_secretario='False')
+        # context['usuariosEduE'] = Solicitacao.objects.filter(user__secretaria_user = "EDUCACAO").filter(requisicao_secretario='False')
+        # context['usuariosAdmE'] = Solicitacao.objects.filter(user__secretaria_user = "FINANCA_ADMINISTRCAO").filter(requisicao_secretario='False')
+        # context['usuariosEsporE'] = Solicitacao.objects.filter(user__secretaria_user = "ESPORT_CULT_TURI").filter(requisicao_secretario='False')
+        # context['usuariosSociE'] = Solicitacao.objects.filter(user__secretaria_user = "ASSISTENCIA_SOCIAL").filter(requisicao_secretario='False')
+        # context['usuariosInfraE'] = Solicitacao.objects.filter(user__secretaria_user = "INFRA").filter(requisicao_secretario='False')
+        # context['usuariosGabiE'] = Solicitacao.objects.filter(user__secretaria_user = "GABINETE").filter(requisicao_secretario='False')
+
+        # # aprovadas list 
+        # context['usuariosSaudeA'] = Solicitacao.objects.filter(user__secretaria_user = "SAUDE").filter(requisicao_secretario='True')
+        # context['usuariosEduA'] = Solicitacao.objects.filter(user__secretaria_user = "EDUCACAO").filter(requisicao_secretario='True')
+        # context['usuariosAdmA'] = Solicitacao.objects.filter(user__secretaria_user = "FINANCA_ADMINISTRCAO").filter(requisicao_secretario='True')
+        # context['usuariosEsporA'] = Solicitacao.objects.filter(user__secretaria_user = "ESPORT_CULT_TURI").filter(requisicao_secretario='True')
+        # context['usuariosSociA'] = Solicitacao.objects.filter(user__secretaria_user = "ASSISTENCIA_SOCIAL").filter(requisicao_secretario='True')
+        # context['usuariosInfraA'] = Solicitacao.objects.filter(user__secretaria_user = "INFRA").filter(requisicao_secretario='True')
+        # context['usuariosGabiA'] = Solicitacao.objects.filter(user__secretaria_user = "GABINETE").filter(requisicao_secretario='True')
+
+        return context
 
 
 #######################################
