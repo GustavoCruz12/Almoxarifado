@@ -113,31 +113,35 @@ class SolicitacaoSecretarioList(LoginRequiredMixin, ListView):
         context = super(SolicitacaoSecretarioList, self).get_context_data(**kwargs)
         user_id = self.request.user
         sec_id = user_id.secretaria_user_id
-        context['solicitacoesE'] = Solicitacao.objects.filter(departamento_relacionamento__secretaria_relacionamento_id = sec_id)
-
-
-
-
-        # Em espera Lista
-        # context['usuariosSaudeE'] = Solicitacao.objects.filter(user__secretaria_user = "SAUDE").filter(requisicao_secretario='False')
-        # context['usuariosEduE'] = Solicitacao.objects.filter(user__secretaria_user = "EDUCACAO").filter(requisicao_secretario='False')
-        # context['usuariosAdmE'] = Solicitacao.objects.filter(user__secretaria_user = "FINANCA_ADMINISTRCAO").filter(requisicao_secretario='False')
-        # context['usuariosEsporE'] = Solicitacao.objects.filter(user__secretaria_user = "ESPORT_CULT_TURI").filter(requisicao_secretario='False')
-        # context['usuariosSociE'] = Solicitacao.objects.filter(user__secretaria_user = "ASSISTENCIA_SOCIAL").filter(requisicao_secretario='False')
-        # context['usuariosInfraE'] = Solicitacao.objects.filter(user__secretaria_user = "INFRA").filter(requisicao_secretario='False')
-        # context['usuariosGabiE'] = Solicitacao.objects.filter(user__secretaria_user = "GABINETE").filter(requisicao_secretario='False')
-
-        # # aprovadas list 
-        # context['usuariosSaudeA'] = Solicitacao.objects.filter(user__secretaria_user = "SAUDE").filter(requisicao_secretario='True')
-        # context['usuariosEduA'] = Solicitacao.objects.filter(user__secretaria_user = "EDUCACAO").filter(requisicao_secretario='True')
-        # context['usuariosAdmA'] = Solicitacao.objects.filter(user__secretaria_user = "FINANCA_ADMINISTRCAO").filter(requisicao_secretario='True')
-        # context['usuariosEsporA'] = Solicitacao.objects.filter(user__secretaria_user = "ESPORT_CULT_TURI").filter(requisicao_secretario='True')
-        # context['usuariosSociA'] = Solicitacao.objects.filter(user__secretaria_user = "ASSISTENCIA_SOCIAL").filter(requisicao_secretario='True')
-        # context['usuariosInfraA'] = Solicitacao.objects.filter(user__secretaria_user = "INFRA").filter(requisicao_secretario='True')
-        # context['usuariosGabiA'] = Solicitacao.objects.filter(user__secretaria_user = "GABINETE").filter(requisicao_secretario='True')
-
+        context['solicitacoesE'] = Solicitacao.objects.filter(departamento_relacionamento__secretaria_relacionamento_id = sec_id).filter(requisicao_secretario='False')
+        context['solicitacoesA'] = Solicitacao.objects.filter(departamento_relacionamento__secretaria_relacionamento_id = sec_id).filter(requisicao_secretario='True')
         return context
 
+class SolicitacaoSecretarioDetail(PermissionRequiredMixin, DetailView):
+    permission_required = 'secretario_permissao'
+    raise_exception = True
+    model = Solicitacao
+    template_name = 'secretario/solicitacao_sec_detail.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(SolicitacaoSecretarioDetail, self).get_context_data(**kwargs)
+        context['solicitacoes'] = Solicitacao.objects.all()
+        context['materiais'] = Materiais_Solicitacao.objects.all().filter(relacionamento_solicitacao_id=self.object)
+        return context
+
+class SolicitacaoSecretarioUpdate(PermissionRequiredMixin, UpdateView):
+    permission_required = 'secretario_permissao'
+    raise_exception = True
+    model = Solicitacao
+    template_name = 'secretario/solicitacao_sec_update.html'
+    form_class = SolicitacaoForm
+    success_url = reverse_lazy('secretarioLista')
+
+    def get_context_data(self, **kwargs):
+        context = super(SolicitacaoSecretarioUpdate, self).get_context_data(**kwargs)
+        context['solicitacoes'] = Solicitacao.objects.all()
+        context['materiais'] = Materiais_Solicitacao.objects.all().filter(relacionamento_solicitacao_id=self.object)        
+        return context
 
 #######################################
 ##   Parte Administrativa do sistema ##

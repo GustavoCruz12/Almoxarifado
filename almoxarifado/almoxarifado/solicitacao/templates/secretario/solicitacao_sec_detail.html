@@ -1,4 +1,6 @@
-{% load static %} {% load staticfiles %} {% load widget_tweaks %}
+{% load static %} 
+{% load staticfiles %} 
+{% load widget_tweaks %}
 
 <!DOCTYPE html>
 
@@ -94,26 +96,37 @@
                          with font-awesome or any other icon font library -->
                     </ul>
                     <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-                            <div class="image">
-                                <img src="{% static 'dist/img/nova.jpg'%}" class="img-circle elevation-2" alt="User Image">
-                            </div>
-                            <div class="info">
-                        
-                                <a href="{% url 'novaSolicitacao' %}" class="d-block">Nova Requisição</a>
-                                
-                            </div>
+                        <div class="image">
+                            <img src="{% static 'dist/img/nova.jpg'%}" class="img-circle elevation-2" alt="User Image">
                         </div>
-                    
-                        <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-                                <div class="image">
-                                    <img src="{% static 'dist/img/lista1.jpg'%}" class="img-circle elevation-2" alt="User Image">
-                                </div>
-                                <div class="info">
-                            
-                                    <a href="{% url 'listaSolicitacao' %}" class="d-block">Minhas Requisições</a>
-                                    
-                                </div>
-                            </div>
+                        <div class="info">
+
+                            <a href="{% url 'novaSolicitacao' %}" class="d-block">Nova Requisição</a>
+
+                        </div>
+                    </div>
+
+                    <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+                        <div class="image">
+                            <img src="{% static 'dist/img/lista1.jpg'%}" class="img-circle elevation-2" alt="User Image">
+                        </div>
+                        <div class="info">
+
+                            <a href="{% url 'listaSolicitacao' %}" class="d-block">Minhas Requisições</a>
+
+                        </div>
+                    </div>
+                    <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+                        <div class="image">
+                            <img src="{% static 'dist/img/lista4.png'%}" class="img-circle elevation-2" alt="User Image">
+                        </div>
+                        <div class="info">
+
+                            <a href="{% url 'secretarioLista' %}" class="d-block">Requisições</a>
+
+                        </div>
+                    </div>
+
                 </nav>
                 <!-- /.sidebar-menu -->
             </div>
@@ -121,10 +134,6 @@
         </aside>
 
         <!-- Content Wrapper. Contains page content -->
-
-
-
-
         <div class="content-wrapper">
             <!-- Content Header (Page header) -->
             <section class="content-header">
@@ -136,9 +145,12 @@
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
                                 <li class="breadcrumb-item">
-                                    <a href="{% url 'home'%}">Pagina Inicial</a>
+                                    <a href="{% url 'secretarioLista'%}">Pagina Inicial</a>
                                 </li>
-                                <li class="breadcrumb-item active">Suas Solicitações</li>
+                                <li class="breadcrumb-item active">
+                                    {{solicitacao.numero_descricao}}
+                                </li>
+                                <li class="breadcrumb-item active">Detalhes</li>
                             </ol>
                         </div>
                     </div>
@@ -149,10 +161,81 @@
             <!-- Main content -->
             <section class="content">
                 <!-- Default box -->
-
-                <div class="card">
+                <div class="card bg-info text-white">
                     <div class="card-header">
-                        <h3 class="card-title">Minhas Solicitações</h3>
+                        <h1 class="card-title text-white">Detalhes</h1>
+                        <div>
+                            <b class="text-dark">Status:</b>
+                            <span class="badge badge-success">Enviado</span>
+                            {% comment %} Processamento {% endcomment %} {% if solicitacao.requisicao_processamento == True %}
+                            <span class="badge badge-success">Processamento</span>
+                            {% else %}
+                            <span class="badge badge-danger">Processamento</span>
+                            {% endif %} {% comment %} Transito {% endcomment %} {% if solicitacao.requisicao_transito == True %}
+                            <span class="badge badge-success">Em transito</span>
+                            {% else %}
+                            <span class="badge badge-danger">Em transito</span>
+                            {% endif %} {% comment %} Recebido {% endcomment %} {% if solicitacao.requisicao_recebido == True %}
+                            <span class="badge badge-success">Recebido</span>
+                            {% else %}
+                            <span class="badge badge-danger">Recebido</span>
+                            {% endif %}
+                        </div>
+                        <div class="card-tools">
+                            <button type="button" class="btn btn-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
+                                <i class="fa fa-minus"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body col-sm-12">
+                        <div class="container">
+                            <div class="row">
+
+                                <div class="col">
+                                    <div class="card bg-light text-dark">
+                                        <div class="card-body">
+                                            <p>
+                                                <b>Numero da Requisição:</b>
+                                                <i>{{solicitacao.numero_descricao}}</i>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="card bg-light text-dark">
+                                        <div class="card-body">
+                                            <p>
+                                                <b>Data de Emissão:</b>
+                                                <i>{{solicitacao.data_emissao}}</i>
+                                            </p>
+
+                                        </div>
+                                    </div>
+                                    <div class="card bg-light text-dark">
+                                        <div class="card-body">
+                                            <p>
+                                                <b>Tipo da Requisição:</b>
+                                                <i>{{solicitacao.movimentacao_relacionamento}}</i>
+                                            </p>
+
+                                        </div>
+                                    </div>
+                                    <div class="card bg-light text-dark">
+                                        <div class="card-body">
+                                            <p>
+                                                <b>Departamento:</b>
+                                                <i>{{solicitacao.departamento_relacionamento}}</i>
+                                            </p>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="card bg-info text-dark">
+                    <div class="card-header">
+                        <h3 class="card-title">Materiais</h3>
                         <div class="card-tools">
                             <button type="button" class="btn btn-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
                                 <i class="fa fa-minus"></i>
@@ -160,69 +243,38 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <ul class="nav nav-tabs">
-                            <li class="nav-item">
-                                <a class="nav-link active" data-toggle="tab" href="#home">Requisições Abertas</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#menu1">Requisições Fechadas</a>
-                            </li>
-                        </ul>
-
-                        <!-- Tab panes -->
-                        <div class="tab-content">
-                            <div class="tab-pane container active" id="home">
-                                <table class="table">
-                                    <thead class="thead-dark">
-                                        <tr>
-                                            <th>ID Requisição</th>
-                                            <th>Descrição</th>
-                                            <th>Data da Requisição</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {% for solicitacaoA in solicitacoesA %}
-                                        {% comment %} {% if request.user.is_authenticated %}                         {% endcomment %}
-                                        <tr>
-                                            <th>
-                                                <a href="{% url 'detalheSolicitacao' pk=solicitacaoA.pk %}">{{solicitacaoA.numero_descricao}}</a>
-                                            </th>
-                                            <td>{{solicitacaoA.descricao_solicitacao|truncatechars:50}}</td>
-                                            <td>{{solicitacaoA.data_emissao}}</td>
-                                        </tr>
-                                        {% comment %} {% endif %} {% endcomment %}
-                                        {% endfor %}
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div class="tab-pane container fade" id="menu1">
-                                <table class="table">
-                                    <thead class="thead-dark">
-                                        <tr>
-                                            <th>ID Requisição</th>
-                                            <th>Descrição</th>
-                                            <th>Data da Requisição</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {% for solicitacaoF in solicitacoesF %}
-                                        <tr>
-                                            <th>
-                                                <a href="{% url 'detalheSolicitacao' pk=solicitacaoF.pk %}">{{solicitacaoF.numero_descricao}}</a>
-                                            </th>
-                                            <td>{{solicitacaoF.descricao_solicitacao|truncatechars:50}}</td>
-                                            <td>{{solicitacaoF.data_emissao}}</td>
-                                        </tr>
-                                        {% endfor %}
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Quantidade</th>
+                                    <th scope="col">Código Material</th>
+                                    <th scope="col">Material</th>
+                                    {% comment %} <th scope="col">Quantidade Aprovada</th> {% endcomment %}
+                                    {% comment %}
+                                    <th scope="col">Handle</th> {% endcomment %}
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for material in materiais %}
+                                <tr>
+                                    <th scope="row">{{material.quantidade_material}}</th>
+                                    <td>{{material.relacionamento_materiais.codigo_material}}</td>
+                                    <td>{{material.relacionamento_materiais}}</td>
+                                    {% comment %} <td>{{material.quantidade_aprovada|default_if_none:"Aguarde o Processamento"}}</td> {% endcomment %}
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
                     </div>
                 </div>
+                <a class="btn btn-primary" href="{% url 'secretarioLista' %}">Voltar</a>
+
+                <a class="btn btn-danger" href="{% url 'secretarioUpdate' solicitacao.id %}">Aprovar</a>
 
         </div>
-        <div class="card-footer"></div>
+        <div class="card-footer">
+
+        </div>
     </div>
 
     <!-- /.card-body -->
@@ -270,12 +322,4 @@
         crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-2.2.4.js" integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.formset/1.2.2/jquery.formset.js"></script>
-    <script type="text/javascript">
-        $('.formset_row').formset({
-            addText: 'Adicionar',
-            deleteText: 'Remover',
-            prefix: 'servico_set'
-        });
-    </script>
-
 </body>

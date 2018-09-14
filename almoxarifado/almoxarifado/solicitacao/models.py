@@ -50,6 +50,7 @@ class Solicitacao(models.Model):
         permissions = (
             ('administrativo_permissao', 'administrativo permissao'),
             ('entrega_permissao', 'entrega permissao'),
+            ('secretario_permissao', 'secretario permissao'),
         )
 
     def __str__(self):

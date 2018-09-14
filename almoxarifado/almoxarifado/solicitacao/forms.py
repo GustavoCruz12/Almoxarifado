@@ -15,6 +15,7 @@ class SolicitacaoForm(forms.ModelForm):
             'departamento_relacionamento',
             'requisicao_processamento',
             'requisicao_transito',
+            'requisicao_secretario',
         ]
 
 

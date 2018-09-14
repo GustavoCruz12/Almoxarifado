@@ -26,6 +26,9 @@ urlpatterns = [
 
     #secretario
     path('secretario/lista', views.SolicitacaoSecretarioList.as_view(), name='secretarioLista'),
+    path('secretario/lista/detalhe/<int:pk>', views.SolicitacaoSecretarioDetail.as_view(), name='secretarioDetail'),
+    path('secretario/lista/detalhe/aprovacao/<int:pk>', views.SolicitacaoSecretarioUpdate.as_view(), name='secretarioUpdate'),
+    
 ]
 
 

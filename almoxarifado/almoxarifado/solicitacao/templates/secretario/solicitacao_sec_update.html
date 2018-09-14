@@ -62,6 +62,7 @@
                     </div>
                 </li>
             </ul>
+
         </nav>
         <!-- /.navbar -->
 
@@ -69,7 +70,7 @@
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
             <a href="{% static 'index3.html'%}" class="brand-link">
-                <img src="{% static 'dist/img/logoSerrana.jpg'%}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+                <img src="{% static 'dist/img/logoSerrana.jpg'%}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3">
                 <span class="brand-text font-weight-light">Prefeitura de Serrana</span>
             </a>
 
@@ -89,31 +90,31 @@
 
                 <!-- Sidebar Menu -->
                 <nav class="mt-2">
-                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="tree" role="menu" data-accordion="false">
                         <!-- Add icons to the links using the .nav-icon class
                          with font-awesome or any other icon font library -->
                     </ul>
                     <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-                            <div class="image">
-                                <img src="{% static 'dist/img/nova.jpg'%}" class="img-circle elevation-2" alt="User Image">
-                            </div>
-                            <div class="info">
-                        
-                                <a href="{% url 'novaSolicitacao' %}" class="d-block">Nova Requisição</a>
-                                
-                            </div>
+                        <div class="image">
+                            <img src="{% static 'dist/img/nova.jpg'%}" class="img-circle elevation-2" alt="User Image">
                         </div>
-                    
-                        <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-                                <div class="image">
-                                    <img src="{% static 'dist/img/lista1.jpg'%}" class="img-circle elevation-2" alt="User Image">
-                                </div>
-                                <div class="info">
-                            
-                                    <a href="{% url 'listaSolicitacao' %}" class="d-block">Minhas Requisições</a>
-                                    
-                                </div>
-                            </div>
+                        <div class="info">
+
+                            <a href="{% url 'novaSolicitacao' %}" class="d-block">Nova Requisição</a>
+
+                        </div>
+                    </div>
+                    <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+                        <div class="image">
+                            <img src="{% static 'dist/img/lista4.png'%}" class="img-circle elevation-2" alt="User Image">
+                        </div>
+                        <div class="info">
+
+                            <a href="{% url 'entregaLista' %}" class="d-block">Requisições</a>
+
+                        </div>
+                    </div>
+
                 </nav>
                 <!-- /.sidebar-menu -->
             </div>
@@ -121,10 +122,6 @@
         </aside>
 
         <!-- Content Wrapper. Contains page content -->
-
-
-
-
         <div class="content-wrapper">
             <!-- Content Header (Page header) -->
             <section class="content-header">
@@ -134,13 +131,19 @@
                             <h1>Almoxarifado</h1>
                         </div>
                         <div class="col-sm-6">
-                            <ol class="breadcrumb float-sm-right">
-                                <li class="breadcrumb-item">
-                                    <a href="{% url 'home'%}">Pagina Inicial</a>
-                                </li>
-                                <li class="breadcrumb-item active">Suas Solicitações</li>
-                            </ol>
-                        </div>
+                                <ol class="breadcrumb float-sm-right">
+                                    <li class="breadcrumb-item">
+                                        <a href="{% url 'home'%}">Pagina Inicial</a>
+                                    </li>
+                                    <li class="breadcrumb-item active">
+                                        <a href="{% url 'entregaLista' %}">Lista de Requisições</a>
+                                    </li>
+                                    <li class="breadcrumb-item active">
+                                            <a href="{% url 'entregaDetalhe' solicitacao.pk %}">Detalhes</a>
+                                        </li>
+                                    <li class="breadcrumb-item active">Aprovação</li>
+                                </ol>
+                            </div>
                     </div>
                 </div>
                 <!-- /.container-fluid -->
@@ -148,93 +151,92 @@
 
             <!-- Main content -->
             <section class="content">
-                <!-- Default box -->
-
-                <div class="card">
-                    <div class="card-header">
-                        <h3 class="card-title">Minhas Solicitações</h3>
-                        <div class="card-tools">
-                            <button type="button" class="btn btn-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
-                                <i class="fa fa-minus"></i>
-                            </button>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <ul class="nav nav-tabs">
-                            <li class="nav-item">
-                                <a class="nav-link active" data-toggle="tab" href="#home">Requisições Abertas</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#menu1">Requisições Fechadas</a>
-                            </li>
-                        </ul>
-
-                        <!-- Tab panes -->
-                        <div class="tab-content">
-                            <div class="tab-pane container active" id="home">
-                                <table class="table">
-                                    <thead class="thead-dark">
-                                        <tr>
-                                            <th>ID Requisição</th>
-                                            <th>Descrição</th>
-                                            <th>Data da Requisição</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {% for solicitacaoA in solicitacoesA %}
-                                        {% comment %} {% if request.user.is_authenticated %}                         {% endcomment %}
-                                        <tr>
-                                            <th>
-                                                <a href="{% url 'detalheSolicitacao' pk=solicitacaoA.pk %}">{{solicitacaoA.numero_descricao}}</a>
-                                            </th>
-                                            <td>{{solicitacaoA.descricao_solicitacao|truncatechars:50}}</td>
-                                            <td>{{solicitacaoA.data_emissao}}</td>
-                                        </tr>
-                                        {% comment %} {% endif %} {% endcomment %}
-                                        {% endfor %}
-                                    </tbody>
-                                </table>
+                <form action="" method="post" enctype="multipart/form-data">
+                    {% csrf_token %} {{form.media}} {% for hidden_field in form.hidden_fields %} {{hidden_field}} {% endfor %}
+                    <!-- Default box -->
+                    <fieldset hidden="True">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">Movimentação</h3>
+                                <div class="card-tools">
+                                    <button type="button" class="btn btn-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
+                                        <i class="fa fa-minus"></i>
+                                    </button>
+                                </div>
                             </div>
-                            <div class="tab-pane container fade" id="menu1">
-                                <table class="table">
-                                    <thead class="thead-dark">
-                                        <tr>
-                                            <th>ID Requisição</th>
-                                            <th>Descrição</th>
-                                            <th>Data da Requisição</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {% for solicitacaoF in solicitacoesF %}
-                                        <tr>
-                                            <th>
-                                                <a href="{% url 'detalheSolicitacao' pk=solicitacaoF.pk %}">{{solicitacaoF.numero_descricao}}</a>
-                                            </th>
-                                            <td>{{solicitacaoF.descricao_solicitacao|truncatechars:50}}</td>
-                                            <td>{{solicitacaoF.data_emissao}}</td>
-                                        </tr>
-                                        {% endfor %}
-                                    </tbody>
-                                </table>
+                            <div class="card-body">
+                                <div class="col-md-8">
+                                    <label>Almoxarifado</label>
+                                    <div class="input-group date">
+                                        {% render_field form.almoxarifado_relacionamento class="form-control" %}
+                                    </div>
+                                </div>
+
+                                <div class="col-md-8">
+                                    <label>Movimentação</label>
+                                    <div class="input-group date">
+                                        {% render_field form.movimentacao_relacionamento class="form-control" %}
+                                    </div>
+                                </div>
+
+                                <div class="col-md-8">
+                                    <label>Departamento</label>
+                                    <div class="input-group date">
+                                        {% render_field form.departamento_relacionamento class="form-control" %}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-footer"></div>
+                        </div>
+                    </fieldset>
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Aprovação</h3>
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
+                                    <i class="fa fa-minus"></i>
+                                </button>
                             </div>
                         </div>
-                    </div>
-                </div>
+                        <div class="card-body">
+                            <label>Aprovar Solicitacao.</label>
+                            {% render_field form.requisicao_secretario %}
+                            <fieldset hidden="True">
+                                {% render_field form.requisicao_transito%}
+                                {% render_field form.requisicao_processamento%}
+                            </fieldset>
 
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Confirmação</h3>
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
+                                    <i class="fa fa-minus"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            {% if solicitacao.requisicao_secretario == True %}
+                            
+                            {% else %}
+                            <button type="submit" class="btn btn-primary glyphicon glyphicon-ok"> Confirmar </button>
+                            {% endif %}
+
+                            <a href="{% url 'secretarioLista' %}" class="btn btn-danger glyphicon-ok glyphicon glyphicon-remove"> Voltar</a>
+                        </div>
+                        <div class="card-footer">
+
+                        </div>
+                    </div>
+                </form>
+            </section>
         </div>
-        <div class="card-footer"></div>
-    </div>
+        <!-- /.card -->
 
-    <!-- /.card-body -->
-    <div class="card-footer">
-
-    </div>
-    <!-- /.card-footer-->
-    </div>
-    <!-- /.card -->
-
-    </section>
-    <!-- /.content -->
+        </section>
+        <!-- /.content -->
     </div>
     <!-- /.content-wrapper -->
 
@@ -270,12 +272,5 @@
         crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-2.2.4.js" integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.formset/1.2.2/jquery.formset.js"></script>
-    <script type="text/javascript">
-        $('.formset_row').formset({
-            addText: 'Adicionar',
-            deleteText: 'Remover',
-            prefix: 'servico_set'
-        });
-    </script>
 
 </body>
