@@ -164,6 +164,41 @@
                     {{hidden_field}} 
                     {% endfor %}
                     <!-- Default box -->
+                    <fieldset hidden=True>
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">Movimentação</h3>
+                                <div class="card-tools">
+                                    <button type="button" class="btn btn-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
+                                        <i class="fa fa-minus"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="col-md-8">
+                                    <label>Almoxarifado</label>
+                                    <div class="input-group date">
+                                        {% render_field form.almoxarifado_relacionamento class="form-control" %}
+                                    </div>
+                                </div>
+    
+                                <div class="col-md-8">
+                                    <label>Movimentação</label>
+                                    <div class="input-group date">
+                                        {% render_field form.movimentacao_relacionamento class="form-control" %}
+                                    </div>
+                                </div>
+    
+                                <div class="col-md-8">
+                                    <label>Departamento</label>
+                                    <div class="input-group date">
+                                        {% render_field form.departamento_relacionamento class="form-control" %}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-footer"></div>
+                        </div>
+                    </fieldset>
                     
                     <div class="card">
                         <div class="card-header">
@@ -245,6 +280,9 @@
                         <div class="card-body">
                             <label>Aprovar Solicitação</label>
                             {% render_field form.requisicao_processamento%}
+                            <fieldset hidden=True>
+                                {% render_field form.requisicao_secretario %}
+                            </fieldset>
                         </div>
                     </div>
                     <div class="card">
@@ -257,8 +295,11 @@
                             </div>
                         </div>
                         <div class="card-body">
-                            <button type="submit" class="btn btn-primary glyphicon glyphicon-ok"> Enviar </button>
-
+                            {% if solicitacao.requisicao_processamento == True %}
+                            
+                            {% else %}
+                            <button type="submit" class="btn btn-primary glyphicon glyphicon-ok"> Confirmar </button>
+                            {% endif %}
                             <a href="{% url 'listaAdministrativo' %}" class="btn btn-danger glyphicon-ok glyphicon glyphicon-remove"> Cancelar</a>
                         </div>
                         <div class="card-footer">
@@ -307,5 +348,4 @@
         crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-2.2.4.js" integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.formset/1.2.2/jquery.formset.js"></script>
-
 </body>

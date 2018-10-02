@@ -1,0 +1,10 @@
+Requirement already up-to-date: django-easy-pdf in /home/gustavo/Projetos/env_almox/lib/python3.6/site-packages
+Requirement already up-to-date: reportlab>=3 in /home/gustavo/Projetos/env_almox/lib/python3.6/site-packages (from django-easy-pdf)
+Requirement already up-to-date: django>=1.8 in /home/gustavo/Projetos/env_almox/lib/python3.6/site-packages (from django-easy-pdf)
+Requirement already up-to-date: xhtml2pdf>=0.2b1 in /home/gustavo/Projetos/env_almox/lib/python3.6/site-packages (from django-easy-pdf)
+Requirement already up-to-date: pillow>=4.0.0 in /home/gustavo/Projetos/env_almox/lib/python3.6/site-packages (from reportlab>=3->django-easy-pdf)
+Requirement already up-to-date: pytz in /home/gustavo/Projetos/env_almox/lib/python3.6/site-packages (from django>=1.8->django-easy-pdf)
+Requirement already up-to-date: html5lib>=1.0 in /home/gustavo/Projetos/env_almox/lib/python3.6/site-packages (from xhtml2pdf>=0.2b1->django-easy-pdf)
+Requirement already up-to-date: pyPdf2 in /home/gustavo/Projetos/env_almox/lib/python3.6/site-packages (from xhtml2pdf>=0.2b1->django-easy-pdf)
+Requirement already up-to-date: six in /home/gustavo/Projetos/env_almox/lib/python3.6/site-packages (from xhtml2pdf>=0.2b1->django-easy-pdf)
+Requirement already up-to-date: webencodings in /home/gustavo/Projetos/env_almox/lib/python3.6/site-packages (from html5lib>=1.0->xhtml2pdf>=0.2b1->django-easy-pdf)

@@ -19,13 +19,16 @@ from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMix
 
 from .models import (Solicitacao, Materiais_Solicitacao, Materiais)
 
-from .forms import (SolicitacaoForm, MateriaisFormSet, MateriaisFormSetUP, MateriaisForm)
+from .forms import (SolicitacaoForm, MateriaisFormSet, MateriaisFormSetUP, MateriaisForm, MateriaisFormSetUPSEC)
 
 from .render import Render
 
 from secretaria.models import Almoxarifado, Departamento
 
 from almoxarifado.users.models import User
+
+from almoxarifado.users.forms import UserCreationForm
+
 
 
 class PaginaInicialSistema(LoginRequiredMixin, ListView):
@@ -41,32 +44,42 @@ class PaginaInicialSistema(LoginRequiredMixin, ListView):
 ## Parte do usuário inicio ##
 #############################
 
+class UsuarioCreate(LoginRequiredMixin, CreateView):
+    model = User
+    template_name = 'usuario/signup.html'
+    form_class = UserCreationForm
+    success_url = reverse_lazy('listaSolicitacao')
+
+
 class SolicitacaoCreate(LoginRequiredMixin, CreateView):
     model = Solicitacao
     context_object_name = 'solicitacao_list'
     template_name = 'solicitacao/solicitacao_create.html'
     form_class = SolicitacaoForm
-    success_url = reverse_lazy('home')
+    success_url = reverse_lazy('listaSolicitacao')
 
     def get_context_data(self, **kwargs):
-        data = super(SolicitacaoCreate, self).get_context_data(**kwargs)
+        context = super(SolicitacaoCreate, self).get_context_data(**kwargs)
         if self.request.POST:
-            data['materiais'] = MateriaisFormSetUP(self.request.POST)
+            context['materiais'] = MateriaisFormSetUP(self.request.POST)
         else:
-            data['materiais'] = MateriaisFormSetUP()
-        return data
+            context['materiais'] = MateriaisFormSetUP()
+        return context
 
     def form_valid(self, form):
         context = self.get_context_data()
         materiais = context['materiais']
         with transaction.atomic():
             if form.is_valid():
-                self.object = form.save()
-                self.object.user = self.request.user
+                self.object = form.save(commit=False)
+                self.object.user = self.request.user       
+                self.object.almoxarifado_relacionamento = self.request.user.almoxarifado_user
+                self.object.departamento_relacionamento = self.request.user.departamento_user
                 self.object.save()
             if materiais.is_valid():
                 materiais.instance = self.object
                 materiais.save()
+
         return super(SolicitacaoCreate, self).form_valid(form)
  
 
@@ -140,8 +153,23 @@ class SolicitacaoSecretarioUpdate(PermissionRequiredMixin, UpdateView):
     def get_context_data(self, **kwargs):
         context = super(SolicitacaoSecretarioUpdate, self).get_context_data(**kwargs)
         context['solicitacoes'] = Solicitacao.objects.all()
-        context['materiais'] = Materiais_Solicitacao.objects.all().filter(relacionamento_solicitacao_id=self.object)        
+        # context['materiais'] = Materiais_Solicitacao.objects.all().filter(relacionamento_solicitacao_id=self.object)
+        if self.request.POST:
+            context['materiais'] = MateriaisFormSetUPSEC(self.request.POST, instance=self.object)
+        else:
+            context['materiais'] = MateriaisFormSetUPSEC(instance=self.object)
         return context
+
+    def form_valid(self, form):
+        context = self.get_context_data()
+        materiais = context['materiais']
+        with transaction.atomic():
+            self.object = form.save()
+
+            if materiais.is_valid():
+                materiais.instance = self.object
+                materiais.save()
+        return super(SolicitacaoSecretarioUpdate, self).form_valid(form)
 
 #######################################
 ##   Parte Administrativa do sistema ##
@@ -156,8 +184,8 @@ class SolicitacaoAdminstrativoList(PermissionRequiredMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super(SolicitacaoAdminstrativoList, self).get_context_data(**kwargs)
-        context['solicitacoesE'] = Solicitacao.objects.filter(status='True', requisicao_processamento='False').order_by('-data_emissao')
-        context['solicitacoesA'] = Solicitacao.objects.filter(status='True', requisicao_processamento='True').order_by('-data_emissao')
+        context['solicitacoesE'] = Solicitacao.objects.filter(status='True', requisicao_processamento='False').filter(requisicao_secretario='True').order_by('-data_emissao')
+        context['solicitacoesA'] = Solicitacao.objects.filter(status='True', requisicao_processamento='True').filter(requisicao_secretario='True').order_by('-data_emissao')
         return context
 
 

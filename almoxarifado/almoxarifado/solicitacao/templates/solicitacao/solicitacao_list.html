@@ -176,7 +176,6 @@
                                     <thead class="thead-dark">
                                         <tr>
                                             <th>ID Requisição</th>
-                                            <th>Descrição</th>
                                             <th>Data da Requisição</th>
                                         </tr>
                                     </thead>
@@ -187,7 +186,6 @@
                                             <th>
                                                 <a href="{% url 'detalheSolicitacao' pk=solicitacaoA.pk %}">{{solicitacaoA.numero_descricao}}</a>
                                             </th>
-                                            <td>{{solicitacaoA.descricao_solicitacao|truncatechars:50}}</td>
                                             <td>{{solicitacaoA.data_emissao}}</td>
                                         </tr>
                                         {% comment %} {% endif %} {% endcomment %}
@@ -200,7 +198,6 @@
                                     <thead class="thead-dark">
                                         <tr>
                                             <th>ID Requisição</th>
-                                            <th>Descrição</th>
                                             <th>Data da Requisição</th>
                                         </tr>
                                     </thead>
@@ -210,7 +207,6 @@
                                             <th>
                                                 <a href="{% url 'detalheSolicitacao' pk=solicitacaoF.pk %}">{{solicitacaoF.numero_descricao}}</a>
                                             </th>
-                                            <td>{{solicitacaoF.descricao_solicitacao|truncatechars:50}}</td>
                                             <td>{{solicitacaoF.data_emissao}}</td>
                                         </tr>
                                         {% endfor %}

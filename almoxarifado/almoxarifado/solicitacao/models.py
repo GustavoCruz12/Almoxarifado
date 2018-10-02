@@ -1,12 +1,9 @@
 from django.db import models
+import datetime
 import random
 from secretaria.models import (Departamento,)
 from almoxarifado.users.models import User
 from secretaria.models import Almoxarifado
-
-def numero_solicitacao():
-    return str(random.randint(10000, 99999))
-
 
 class Movimentacao(models.Model):
     ROLE_CHOICES = (
@@ -34,15 +31,15 @@ class Solicitacao(models.Model):
     ) 
     status = models.BooleanField('Status da Solicitação', choices=STATUS_CHOICES, default=ABERTA)
     data_emissao = models.DateField(auto_now_add=True)
-    numero_descricao = models.CharField(default=numero_solicitacao, max_length=255)
+    numero_descricao = models.CharField(max_length=32, unique=True)
     movimentacao_relacionamento = models.ForeignKey(Movimentacao, on_delete=models.CASCADE)
     almoxarifado_relacionamento = models.ForeignKey(Almoxarifado, on_delete=models.CASCADE)
     departamento_relacionamento = models.ForeignKey(Departamento, on_delete=models.CASCADE)
-    requisicao_enviado = models.BooleanField(default=False)
-    requisicao_secretario = models.BooleanField(default=False)
-    requisicao_processamento = models.BooleanField(default=False)
-    requisicao_transito = models.BooleanField(default=False)
-    requisicao_recebido = models.BooleanField(default=False)
+    requisicao_enviado = models.BooleanField(default=False, blank=True)
+    requisicao_secretario = models.BooleanField(default=False, blank=True)
+    requisicao_processamento = models.BooleanField(default=False, blank=True)
+    requisicao_transito = models.BooleanField(default=False, blank=True)
+    requisicao_recebido = models.BooleanField(default=False, blank=True)
     
     class Meta:
         verbose_name = 'Solicitação'
@@ -55,6 +52,14 @@ class Solicitacao(models.Model):
 
     def __str__(self):
         return self.numero_descricao
+
+    def save(self, *args, **kwargs):
+        super (Solicitacao, self).save(*args, **kwargs)
+        ano_corrente = datetime.datetime.now()
+        if not self.numero_descricao:
+            self.numero_descricao = f"{ano_corrente.year}00{self.id}"
+            self.save
+
 
 
 class Unidade(models.Model):

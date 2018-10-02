@@ -118,12 +118,12 @@
                     <p>{{object.email}}</p>
                     {% endif %}
                   </div>
-                </div>
+                </div> 
               {% if object == request.user %}
               <!-- Action buttons -->
               <div class="row">
                 <div class="col-sm-12">
-                  <a class="btn btn-primary" href="{% url 'users:update' %}" role="button">Informações Adicionais</a>
+                  <a class="btn btn-primary" href="{% url 'account_set_password' %}" role="button">Nova Senha!</a>
                   <a class="btn btn-primary" href="{% url 'account_email' %}" role="button">E-Mail</a>
                   {% if object.secretaria_user == 'Null' %}
                    teste 

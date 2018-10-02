@@ -11,8 +11,7 @@ class SolicitacaoForm(forms.ModelForm):
         model = Solicitacao
         fields = [
             'movimentacao_relacionamento',
-            'almoxarifado_relacionamento',
-            'departamento_relacionamento',
+            
             'requisicao_processamento',
             'requisicao_transito',
             'requisicao_secretario',
@@ -31,6 +30,7 @@ class Material_SolicitacaoForm(ModelForm):
     
 MateriaisFormSet = inlineformset_factory(Solicitacao, Materiais_Solicitacao, form=Material_SolicitacaoForm, extra=0, can_delete=False)
 MateriaisFormSetUP = inlineformset_factory(Solicitacao, Materiais_Solicitacao, fields=('quantidade_material', 'quantidade_aprovada', 'unidade_relacionamento', 'relacionamento_materiais'), extra=1)
+MateriaisFormSetUPSEC = inlineformset_factory(Solicitacao, Materiais_Solicitacao, fields=('quantidade_material', 'unidade_relacionamento', 'relacionamento_materiais'), extra=0)
 
 class MateriaisForm(forms.ModelForm):
 

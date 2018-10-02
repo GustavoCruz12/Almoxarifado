@@ -1,0 +1,160 @@
+{% load static %}
+{% load staticfiles %}
+{% load widget_tweaks %}
+{% load i18n %}
+{% load account socialaccount %}
+{% load crispy_forms_tags %}
+
+{% load static %} {% load staticfiles %} {% load widget_tweaks %}
+
+<!DOCTYPE html>
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Sistema Almoxarifado</title>
+  <!-- Tell the browser to be responsive to screen width -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+  <!-- Ionicons -->
+  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="{% static 'dist/css/adminlte.min.css'%}">
+  <!-- Google Font: Source Sans Pro -->
+  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+</head>
+
+<body class="hold-transition sidebar-mini sidebar-collapse">
+  <!-- Site wrapper -->
+  <div class="wrapper">
+    <!-- Navbar -->
+    <nav class="main-header navbar navbar-expand bg-white navbar-light border-bottom">
+      <!-- Left navbar links -->
+
+
+      <!-- Right navbar links -->
+      <ul class="navbar-nav ml-auto">
+        <!-- Messages Dropdown Menu -->
+        <li class="nav-item dropdown">
+          <div class="dropdown-menu dropdown-menu-lg">
+            <div class="dropdown-divider"></div>
+            <div class="dropdown-divider"></div>
+            <a href="#" class="dropdown-item">
+              <!-- Message Start -->
+              <div class="media">
+                <img src="{% static 'dist/img/user3-128x128.jpg'%}" alt="User Avatar" class="img-size-50 img-circle mr-3">
+              </div>
+            </a>
+          </div>
+        </li>
+      </ul>
+    </nav>
+    <!-- /.navbar -->
+
+    <!-- Main Sidebar Container -->
+    <aside class="main-sidebar sidebar-dark-primary elevation-4">
+      <!-- Brand Logo -->
+      <a href="{% static 'index3.html'%}" class="brand-link">
+        <img src="{% static 'dist/img/logoSerrana.jpg'%}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
+          style="opacity: .8">
+        <span class="brand-text font-weight-light">Prefeitura de Serrana</span>
+      </a>
+
+      <!-- Sidebar -->
+      <div class="sidebar">
+        <!-- Sidebar user (optional) -->
+        <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+          <div class="image">
+            <img src="{% static 'dist/img/avatar04.png'%}" class="img-circle elevation-2" alt="User Image">
+          </div>
+          <div class="info">
+            {% if user.is_authenticated %}
+            <a href="#" class="d-block">{{user.username}}</a>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </aside>
+    {% if messages %}
+    <ul class="messages">
+      {% for message in messages %}
+      <li {% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+    <div class="content-wrapper">
+      <!-- Content Header (Page header) -->
+      <section class="content-header">
+        <div class="container-fluid">
+          <div class="row mb-2">
+            <div class="col-sm-6">
+              <h1>Almoxarifado</h1>
+            </div>
+          </div>
+        </div>
+        <!-- /.container-fluid -->
+      </section>
+      <!-- Main content -->
+      <section class="content">
+        <!-- Default box -->
+        <div class="card">
+          <div class="card-header">
+            <h5>Nova Conta</h5>
+          </div>
+          <div class="card-body">
+
+              <form class="signup" id="signup_form" method="post" action="">
+                {% csrf_token %}
+                  {{form|crispy}}
+                {% if redirect_field_value %}
+                <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+                {% endif %}
+                <button class="btn btn-primary" type="submit">{% trans "Criar" %} &raquo;</button>
+              </form>
+          </div>
+        </div>
+      </section>
+      <!-- /.content -->
+    </div>
+    <!-- /.content-wrapper -->
+
+    <footer class="main-footer">
+      <div class="float-right d-none d-sm-block">
+        <b>Version</b> 3.0.0-alpha
+      </div>
+
+    </footer>
+
+    <!-- Control Sidebar -->
+    <aside class="control-sidebar control-sidebar-dark">
+      <!-- Control sidebar content goes here -->
+    </aside>
+    <!-- /.control-sidebar -->
+  </div>
+  <!-- ./wrapper -->
+
+  <!-- jQuery -->
+  <script src="{% static 'plugins/jquery/jquery.min.js'%}"></script>
+  <!-- Bootstrap 4 -->
+  <script src="{% static 'plugins/bootstrap/js/bootstrap.bundle.min.js'%}"></script>
+  <!-- SlimScroll -->
+  <script src="{% static 'plugins/slimScroll/jquery.slimscroll.min.js'%}"></script>
+  <!-- FastClick -->
+  <script src="{% static 'plugins/fastclick/fastclick.js'%}"></script>
+  <!-- AdminLTE App -->
+  <script src="{% static 'dist/js/adminlte.min.js'%}"></script>
+  <!-- AdminLTE for demo purposes -->
+  <script src="{% static 'dist/js/demo.js'%}"></script>
+
+  <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js" integrity="sha256-0YPKAwZP7Mp3ALMRVB2i8GXeEndvCq3eSl/WsAl1Ryk="
+    crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-2.2.4.js" integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI="
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.formset/1.2.2/jquery.formset.js"></script>
+
+</body>
+
+
+

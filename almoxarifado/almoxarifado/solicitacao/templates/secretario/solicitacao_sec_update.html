@@ -131,19 +131,19 @@
                             <h1>Almoxarifado</h1>
                         </div>
                         <div class="col-sm-6">
-                                <ol class="breadcrumb float-sm-right">
-                                    <li class="breadcrumb-item">
-                                        <a href="{% url 'home'%}">Pagina Inicial</a>
-                                    </li>
-                                    <li class="breadcrumb-item active">
-                                        <a href="{% url 'entregaLista' %}">Lista de Requisições</a>
-                                    </li>
-                                    <li class="breadcrumb-item active">
-                                            <a href="{% url 'entregaDetalhe' solicitacao.pk %}">Detalhes</a>
-                                        </li>
-                                    <li class="breadcrumb-item active">Aprovação</li>
-                                </ol>
-                            </div>
+                            <ol class="breadcrumb float-sm-right">
+                                <li class="breadcrumb-item">
+                                    <a href="{% url 'home'%}">Pagina Inicial</a>
+                                </li>
+                                <li class="breadcrumb-item active">
+                                    <a href="{% url 'entregaLista' %}">Lista de Requisições</a>
+                                </li>
+                                <li class="breadcrumb-item active">
+                                    <a href="{% url 'entregaDetalhe' solicitacao.pk %}">Detalhes</a>
+                                </li>
+                                <li class="breadcrumb-item active">Aprovação</li>
+                            </ol>
+                        </div>
                     </div>
                 </div>
                 <!-- /.container-fluid -->
@@ -152,14 +152,19 @@
             <!-- Main content -->
             <section class="content">
                 <form action="" method="post" enctype="multipart/form-data">
-                    {% csrf_token %} {{form.media}} {% for hidden_field in form.hidden_fields %} {{hidden_field}} {% endfor %}
+                    {% csrf_token %}
+                    {{form.media}}
+                    {% for hidden_field in form.hidden_fields %}
+                    {{hidden_field}}
+                    {% endfor %}
                     <!-- Default box -->
                     <fieldset hidden="True">
                         <div class="card">
                             <div class="card-header">
                                 <h3 class="card-title">Movimentação</h3>
                                 <div class="card-tools">
-                                    <button type="button" class="btn btn-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
+                                    <button type="button" class="btn btn-tool" data-widget="collapse" data-toggle="tooltip"
+                                        title="Collapse">
                                         <i class="fa fa-minus"></i>
                                     </button>
                                 </div>
@@ -191,9 +196,46 @@
                     </fieldset>
                     <div class="card">
                         <div class="card-header">
+                            <h5>Itens</h5>
+                        </div>
+                        <div class="card-body">
+                                <table class="table">
+                                        {{ materiais.management_form }}
+                            
+                                        {% for form in materiais.forms %}
+                                            {% if forloop.first %}
+                                                <thead>
+                                                <tr>
+                                                    {% for field in form.visible_fields %}
+                                                        <th>{{ field.label|capfirst }}</th>
+                                                    {% endfor %}
+                                                </tr>
+                                                </thead>
+                                            {% endif %}
+                                            <tr class="formset_row">
+                                                {% for field in form.visible_fields %}
+                                                    <td>
+                                                        {# Include the hidden fields in the form #}
+                                                        {% if forloop.first %}
+                                                            {% for hidden in form.hidden_fields %}
+                                                                {{ hidden }}
+                                                            {% endfor %}
+                                                        {% endif %}
+                                                        {{ field.errors.as_ul }}
+                                                        {{ field }}
+                                                    </td>
+                                                {% endfor %}
+                                            </tr>
+                                        {% endfor %}
+                                    </table>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
                             <h3 class="card-title">Aprovação</h3>
                             <div class="card-tools">
-                                <button type="button" class="btn btn-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
+                                <button type="button" class="btn btn-tool" data-widget="collapse" data-toggle="tooltip"
+                                    title="Collapse">
                                     <i class="fa fa-minus"></i>
                                 </button>
                             </div>
@@ -212,19 +254,21 @@
                         <div class="card-header">
                             <h3 class="card-title">Confirmação</h3>
                             <div class="card-tools">
-                                <button type="button" class="btn btn-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
+                                <button type="button" class="btn btn-tool" data-widget="collapse" data-toggle="tooltip"
+                                    title="Collapse">
                                     <i class="fa fa-minus"></i>
                                 </button>
                             </div>
                         </div>
                         <div class="card-body">
                             {% if solicitacao.requisicao_secretario == True %}
-                            
+
                             {% else %}
                             <button type="submit" class="btn btn-primary glyphicon glyphicon-ok"> Confirmar </button>
                             {% endif %}
 
-                            <a href="{% url 'secretarioLista' %}" class="btn btn-danger glyphicon-ok glyphicon glyphicon-remove"> Voltar</a>
+                            <a href="{% url 'secretarioLista' %}" class="btn btn-danger glyphicon-ok glyphicon glyphicon-remove">
+                                Voltar</a>
                         </div>
                         <div class="card-footer">
 
@@ -270,7 +314,14 @@
 
     <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js" integrity="sha256-0YPKAwZP7Mp3ALMRVB2i8GXeEndvCq3eSl/WsAl1Ryk="
         crossorigin="anonymous"></script>
-    <script src="https://code.jquery.com/jquery-2.2.4.js" integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-2.2.4.js" integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI="
+        crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.formset/1.2.2/jquery.formset.js"></script>
-
+    <script type="text/javascript">
+        $('.formset_row').formset({
+            addText: 'Adicionar',
+            deleteText: 'Remover',
+            prefix: 'materiais_solicitacao_set'
+        });
+        </script>
 </body>
