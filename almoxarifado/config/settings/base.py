@@ -70,9 +70,7 @@ THIRD_PARTY_APPS = [
     'allauth.socialaccount',
     'rest_framework',
     'widget_tweaks',
-    'easy_pdf',
     'django_select2',
-    'pdfkit',
 ]
 LOCAL_APPS = [
     'almoxarifado.users.apps.UsersAppConfig',

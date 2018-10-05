@@ -8,36 +8,26 @@ from django.views.generic import (
     View,
 )
 from django.shortcuts import render, redirect, get_object_or_404
-
 from django.db import transaction
-
 from django.contrib import messages
-
 from django.urls import reverse_lazy, reverse
-
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
-
-from .models import (Solicitacao, Materiais_Solicitacao, Materiais)
-
-from .forms import (SolicitacaoForm, MateriaisFormSet, MateriaisFormSetUP, MateriaisForm, MateriaisFormSetUPSEC)
-
 from .render import Render
-
+from .models import (Solicitacao, Materiais_Solicitacao, Materiais)
+from .forms import (SolicitacaoForm, MateriaisFormSet, MateriaisFormSetUP, MateriaisForm, MateriaisFormSetUPSEC)
 from secretaria.models import Almoxarifado, Departamento
-
 from almoxarifado.users.models import User
-
 from almoxarifado.users.forms import UserCreationForm
 
 
-
-class PaginaInicialSistema(LoginRequiredMixin, ListView):
-    model = Solicitacao
+class PaginaInicialSistema(LoginRequiredMixin, TemplateView):
+    model = User
     template_name = "solicitacao/pagina_inicial.html"
 
     def get_context_data(self, **kwargs):
         context = super(PaginaInicialSistema, self).get_context_data(**kwargs)
-        context['user_is_adm'] = self.request.user.groups.filter(name='administrativo_permissao').exists()
+        user = self.request.user
+        context['usuarios'] = User.objects.all()
         return context        
 
 #############################
@@ -118,7 +108,9 @@ class SolicitacaoDelete(LoginRequiredMixin, DeleteView):
 #######################################
 
 
-class SolicitacaoSecretarioList(LoginRequiredMixin, ListView):
+class SolicitacaoSecretarioList(PermissionRequiredMixin, ListView):
+    permission_required = 'secretario_permissao'
+    raise_exception = True
     model = Solicitacao
     template_name = 'secretario/solicitacao_sec_list.html'
 

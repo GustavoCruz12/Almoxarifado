@@ -2,6 +2,8 @@ from django.urls import path
 
 from . import views
 
+from . import relatorio
+
 urlpatterns = [
     # usuario
     path('usuario/nova/', views.SolicitacaoCreate.as_view(), name='novaSolicitacao'),
@@ -29,7 +31,10 @@ urlpatterns = [
     path('secretario/lista/detalhe/<int:pk>', views.SolicitacaoSecretarioDetail.as_view(), name='secretarioDetail'),
     path('secretario/lista/detalhe/aprovacao/<int:pk>', views.SolicitacaoSecretarioUpdate.as_view(), name='secretarioUpdate'),
 
-    path('usuario/create', views.UsuarioCreate.as_view(), name='usuarioCreate')
+    path('usuario/create', views.UsuarioCreate.as_view(), name='usuarioCreate'),
+
+    path('render/pdf/<int:pk>', relatorio.Pdf.as_view(), name='pdf')
+
     
 ]
 
