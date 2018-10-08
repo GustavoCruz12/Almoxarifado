@@ -17,6 +17,10 @@ class UserCreationForm(forms.UserCreationForm):
         {"duplicate_username": _("This username has already been taken.")}
     )
 
+    error_messages = {
+        'password_mismatch': _("The two password fields didn't match."),
+    }
+    
     class Meta(forms.UserCreationForm.Meta):
         model = User
         fields = ('username', 
