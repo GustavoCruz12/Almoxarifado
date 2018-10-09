@@ -1,224 +1,42 @@
-{% load static %}
+{% extends "baseSol.html" %}
 {% load staticfiles %}
 {% load widget_tweaks %}
 
-<!DOCTYPE html>
-
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Sistema Almoxarifado</title>
-    <!-- Tell the browser to be responsive to screen width -->
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
-    <!-- Ionicons -->
-    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-    <!-- Theme style -->
-    <link rel="stylesheet" href="{% static 'dist/css/adminlte.min.css'%}">
-    <!-- Google Font: Source Sans Pro -->
-    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
-</head>
-
-<body class="hold-transition sidebar-mini sidebar-collapse">
-    <!-- Site wrapper -->
-    <div class="wrapper">
-        <!-- Navbar -->
-        <nav class="main-header navbar navbar-expand bg-white navbar-light border-bottom">
-            <!-- Left navbar links -->
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link" data-widget="pushmenu" href="#">
-                        <i class="fa fa-bars"></i>
-                    </a>
-                </li>
-                <li class="nav-item d-none d-sm-inline-block">
-                    <a href="{% url 'home' %}" class="nav-link">Pagina Inicial</a>
-                </li>
-            </ul <!-- SEARCH FORM -->
-            <form class="form-inline ml-3">
-                <div class="input-group input-group-sm">
-                    <input class="form-control form-control-navbar" type="search" placeholder="Procurar" aria-label="Search">
-                    <div class="input-group-append">
-                        <button class="btn btn-navbar" type="submit">
-                            <i class="fa fa-search"></i>
-                        </button>
-                    </div>
-                </div>
-            </form>
-
-            <!-- Right navbar links -->
-            <ul class="navbar-nav ml-auto">
-                <!-- Messages Dropdown Menu -->
-                <li class="nav-item dropdown">
-                    <div class="dropdown-menu dropdown-menu-lg">
-                        <div class="dropdown-divider"></div>
-                        <div class="dropdown-divider"></div>
-                        <a href="#" class="dropdown-item">
-                            <!-- Message Start -->
-                            <div class="media">
-                                <img src="{% static 'dist/img/user3-128x128.jpg'%}" alt="User Avatar" class="img-size-50 img-circle mr-3">
-                            </div>
-                        </a>
-                    </div>
-                </li>
-            </ul>
-
-        </nav>
-        <!-- /.navbar -->
-
-        <!-- Main Sidebar Container -->
-        <aside class="main-sidebar sidebar-dark-primary elevation-4">
-            <!-- Brand Logo -->
-            <a href="{% static 'index3.html'%}" class="brand-link">
-                <img src="{% static 'dist/img/logoSerrana.jpg'%}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3">
-                <span class="brand-text font-weight-light">Prefeitura de Serrana</span>
-            </a>
-
-            <!-- Sidebar -->
-            <div class="sidebar">
-                <!-- Sidebar user (optional) -->
-                <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-                    <div class="image">
-                        <img src="{% static 'dist/img/avatar04.png'%}" class="img-circle elevation-2" alt="User Image">
-                    </div>
-                    <div class="info">
-                        {% if user.is_authenticated %}
-                        <a href="{#}" class="d-block">{{user.username}}</a>
-                        {% endif %}
-                    </div>
-                </div>
-
-                <!-- Sidebar Menu -->
-
-                <!-- /.sidebar-menu -->
-            </div>
-            <!-- /.sidebar -->
-        </aside>
-
-        <!-- Content Wrapper. Contains page content -->
-        <div class="content-wrapper">
-            <!-- Content Header (Page header) -->
-            <section class="content-header">
-                <div class="container-fluid">
-                    <div class="row mb-2">
-                        <div class="col-sm-6">
-                            <h1>Almoxarifado</h1>
-                        </div>
-
-                    </div>
-                    <!-- /.container-fluid -->
-            </section>
-
-            <!-- Main content -->
-            <section class="content">
-                <div class="card">
-                    <div class="card-header">
-                        <h5>Bem Vindo!</h5>
-                    </div>
+{% block content %}
+<section class="content">
+    <div class="card">
+        <div class="card-header">
+            <h5>Bem Vindo!</h5>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                {% comment %} card usuario {% endcomment %}
+                <div class="card col" style="width: 18rem;">
+                    <img class="card-img-top" src="{%static 'dist/img/escritorio.jpg'%}" alt="Card image cap">
                     <div class="card-body">
-                        <div class="row">
-                            {% comment %} card usuario {% endcomment %}
-                            <div class="card col" style="width: 18rem;">
-                                <img class="card-img-top" src="{%static 'dist/img/escritorio.jpg'%}" alt="Card image cap">
-                                <div class="card-body">
-                                    <h5 class="card-title">Nova Requisição</h5>
-                                    <p class="card-text"></p>
-                                    <a href="{% url 'novaSolicitacao'%}" class="btn btn-primary">Nova Requisição</a>
-                                </div>
-                            </div>
-                            {% comment %} card entrega {% endcomment %}
-                            <div class="card col" style="width: 18rem;">
-                                <img class="card-img-top" src="{%static 'dist/img/admalmox.png'%}" alt="Card image cap">
-                                <div class="card-body">
-                                    <h5 class="card-title">Administrar Requisições</h5>
-                                    <p class="card-text"></p>
-                                    {% if user.usuario_administrativo == True %}
-                                    <a href="{% url 'listaAdministrativo'%}" class="btn btn-primary">Administrar
-                                        Requisições</a>
-                                    {% else %}
-                                    <!-- Button trigger modal -->
-                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-                                        Administrar Requisições
-                                    </button>
-
-                                    <!-- Modal -->
-                                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
-                                        aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                        <div class="modal-dialog" role="document">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="exampleModalLabel">Erro!</h5>
-                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    Você não tem paermissão para acessar esta parte do sistema.
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-danger" data-dismiss="modal">Entendido.</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    {% endif %}
-                                </div>
-                            </div>
-                            {% comment %} card entrega {% endcomment %}
-                            <div class="card col" style="width: 18rem;">
-                                <img class="card-img-top" src="{%static 'dist/img/entrega.jpg'%}" alt="Card image cap">
-                                <div class="card-body">
-                                    <h5 class="card-title">Administrar Entregas</h5>
-                                    <p class="card-text"></p>
-                                    {% if user.usuario_entrega == True %}
-                                    <a href="{% url 'entregaLista' %}" class="btn btn-primary">Entregar Requisições</a>
-                                    {% else %}
-                                    <!-- Button trigger modal -->
-                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-                                        Entregar Requisições
-                                    </button>
-
-                                    <!-- Modal -->
-                                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
-                                        aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                        <div class="modal-dialog" role="document">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="exampleModalLabel">Erro!</h5>
-                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    Você não tem paermissão para acessar esta parte do sistema.
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-danger" data-dismiss="modal">Entendido.</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    {% endif %}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-footer">
+                        <h5 class="card-title">Minhas Requisições</h5>
+                        <p class="card-text"></p>
+                        <a href="{% url 'novaSolicitacao'%}" class="btn btn-primary">Nova Requisição</a>
+                        <a href="{% url 'listaSolicitacao'%}" class="btn btn-danger">Lista de Requisições</a>
 
                     </div>
                 </div>
-                <div class="card">
-                    <div class="card-header">
-                        <h4>Secretario?</h4>
-                    </div>
+                {% comment %} card entrega {% endcomment %}
+                <div class="card col" style="width: 18rem;">
+                    <img class="card-img-top" src="{%static 'dist/img/admalmox.png'%}" alt="Card image cap">
                     <div class="card-body">
-                        {% if user.usuario_secretario == True %}
-                        <span>Clique <a href="{% url 'secretarioLista' %}">aqui</a>.</span>
+                        <h5 class="card-title">Administrar Requisições</h5>
+                        <p class="card-text"></p>
+                        {% if user.usuario_administrativo == True %}
+                        <a href="{% url 'listaAdministrativo'%}" class="btn btn-primary">Administrar
+                            Requisições</a>
                         {% else %}
-                        <span>Clique <a href="{% url 'secretarioLista' %}" data-toggle="modal" data-target="#exampleModal">aqui</a>.</span>
+                        <!-- Button trigger modal -->
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                            Administrar Requisições
+                        </button>
 
+                        <!-- Modal -->
                         <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
                             aria-hidden="true">
                             <div class="modal-dialog" role="document">
@@ -238,48 +56,84 @@
                                 </div>
                             </div>
                         </div>
-
                         {% endif %}
                     </div>
                 </div>
+                {% comment %} card entrega {% endcomment %}
+                <div class="card col" style="width: 18rem;">
+                    <img class="card-img-top" src="{%static 'dist/img/entrega.jpg'%}" alt="Card image cap">
+                    <div class="card-body">
+                        <h5 class="card-title">Administrar Entregas</h5>
+                        <p class="card-text"></p>
+                        {% if user.usuario_entrega == True %}
+                        <a href="{% url 'entregaLista' %}" class="btn btn-primary">Entregar Requisições</a>
+                        {% else %}
+                        <!-- Button trigger modal -->
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                            Entregar Requisições
+                        </button>
 
-            </section>
-            <!-- /.content -->
+                        <!-- Modal -->
+                        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                            aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Erro!</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        Você não tem paermissão para acessar esta parte do sistema.
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-danger" data-dismiss="modal">Entendido.</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
         </div>
-        <!-- /.content-wrapper -->
+        <div class="card-footer">
 
-        <footer class="main-footer">
-            <div class="float-right d-none d-sm-block">
-                <b>Version</b> 3.0.0-alpha
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-header">
+            <h4>Secretario?</h4>
+        </div>
+        <div class="card-body">
+            {% if user.usuario_secretario == True %}
+            <span>Clique <a href="{% url 'secretarioLista' %}">aqui</a>.</span>
+            {% else %}
+            <span>Clique <a href="{% url 'secretarioLista' %}" data-toggle="modal" data-target="#exampleModal">aqui</a>.</span>
+
+            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Erro!</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            Você não tem paermissão para acessar esta parte do sistema.
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">Entendido.</button>
+                        </div>
+                    </div>
+                </div>
             </div>
 
-        </footer>
-
-        <!-- Control Sidebar -->
-        <aside class="control-sidebar control-sidebar-dark">
-            <!-- Control sidebar content goes here -->
-        </aside>
-        <!-- /.control-sidebar -->
+            {% endif %}
+        </div>
     </div>
-    <!-- ./wrapper -->
-
-    <!-- jQuery -->
-    <script src="{% static 'plugins/jquery/jquery.min.js'%}"></script>
-    <!-- Bootstrap 4 -->
-    <script src="{% static 'plugins/bootstrap/js/bootstrap.bundle.min.js'%}"></script>
-    <!-- SlimScroll -->
-    <script src="{% static 'plugins/slimScroll/jquery.slimscroll.min.js'%}"></script>
-    <!-- FastClick -->
-    <script src="{% static 'plugins/fastclick/fastclick.js'%}"></script>
-    <!-- AdminLTE App -->
-    <script src="{% static 'dist/js/adminlte.min.js'%}"></script>
-    <!-- AdminLTE for demo purposes -->
-    <script src="{% static 'dist/js/demo.js'%}"></script>
-
-    <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js" integrity="sha256-0YPKAwZP7Mp3ALMRVB2i8GXeEndvCq3eSl/WsAl1Ryk="
-        crossorigin="anonymous"></script>
-    <script src="https://code.jquery.com/jquery-2.2.4.js" integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI="
-        crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.formset/1.2.2/jquery.formset.js"></script>
-
-</body>
+</section>
+{% endblock content %}

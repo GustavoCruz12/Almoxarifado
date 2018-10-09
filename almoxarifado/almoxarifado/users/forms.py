@@ -29,7 +29,7 @@ class UserCreationForm(forms.UserCreationForm):
                   'almoxarifado_user', 
                   'secretaria_user', 
                   'departamento_user',
-                  'user_permissions'
+                  'user_permissions',
                   )
 
     def clean_username(self):
